@@ -165,7 +165,7 @@ void Graph_A_star::drawGraph(sf::RenderWindow* window) {
 	window->draw(&lines[0], lines.size(), sf::Lines);
 	sf::CircleShape s(10);
 	sf::Text text;
-	text.setColor(sf::Color::White);
+	text.setFillColor(sf::Color::White);
 	text.setCharacterSize(16);
 	text.setFont(font);
 
