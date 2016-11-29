@@ -18,15 +18,15 @@ SearchPillState::~SearchPillState()
 }
 
 void SearchPillState::Execute(Bunny* b){
+	b->moveTo(g->GetNextVertex(b->location, p->location));
+	if (p->location == b->location) {
+		p->eatPill();
+		b->currentState = StateFactory::getInstance().getState("SearchEnemy");
+	}
 
 }
 
 void SearchPillState::Execute(Cow* c){
-	c->moveTo( g->GetNextVertex(c->location, p->location));
-	if (p->location == c->location){
-		p->eatPill();
-		c->currentState = StateFactory::getInstance().getState("SearchEnemy");
-	}
 	
 }
 

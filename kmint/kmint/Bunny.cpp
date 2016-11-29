@@ -3,6 +3,7 @@
 #include "Bunny.h"
 #include "StateFactory.h"
 #include "SearchEnemyState.h"
+#include "WanderState.h"
 
 
 Bunny::Bunny(Vertex* loc)
@@ -41,5 +42,6 @@ void Bunny::moveTo(Vertex* loc){
 }
 
 void Bunny::Register(){
+	((WanderState*)StateFactory::getInstance().getState("Wander"))->RegisterObjects(nullptr, nullptr, nullptr, this);
 	((SearchEnemyState*)StateFactory::getInstance().getState("SearchEnemy"))->RegisterObjects(nullptr, nullptr, nullptr, this);
 }

@@ -4,6 +4,8 @@
 #include <iostream>
 #include "StateFactory.h"
 #include "SearchEnemyState.h"
+#include "WanderState.h"
+#include "FleeState.h"
 
 
 
@@ -52,5 +54,7 @@ void Cow::moveTo(Vertex* loc){
 }
 
 void Cow::Register(){
+	((FleeState*)StateFactory::getInstance().getState("Flee"))->RegisterObjects(nullptr, nullptr, this, nullptr);
+	((WanderState*)StateFactory::getInstance().getState("Wander"))->RegisterObjects(nullptr, nullptr, this, nullptr);
 	((SearchEnemyState*)StateFactory::getInstance().getState("SearchEnemy"))->RegisterObjects(nullptr, nullptr, this, nullptr);
 }

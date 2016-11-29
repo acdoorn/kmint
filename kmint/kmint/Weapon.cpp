@@ -28,7 +28,7 @@ void Weapon::draw(sf::RenderWindow* window){
 }
 
 void Weapon::Register(){
-	((WanderState*)StateFactory::getInstance().getState("Wander"))->setWeapon(this);
+	((WanderState*)StateFactory::getInstance().getState("Wander"))->RegisterObjects(nullptr, this, nullptr, nullptr);
 	((SearchEnemyState*)StateFactory::getInstance().getState("SearchEnemy"))->RegisterObjects(nullptr,this,nullptr,nullptr);
 }
 

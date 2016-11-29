@@ -4,6 +4,7 @@
 #include "StateFactory.h"
 #include "SearchPillState.h"
 #include "SearchEnemyState.h"
+#include "WanderState.h"
 
 
 Pill::Pill(Vertex* loc)
@@ -40,5 +41,6 @@ void Pill::draw(sf::RenderWindow* window){
 
 void Pill::Register(){
 	((SearchPillState*)StateFactory::getInstance().getState("SearchPill"))->setPill(this);
+	((WanderState*)StateFactory::getInstance().getState("Wander"))->RegisterObjects(this, nullptr, nullptr, nullptr);
 	((SearchEnemyState*)StateFactory::getInstance().getState("SearchEnemy"))->RegisterObjects(this, nullptr, nullptr, nullptr);
 }

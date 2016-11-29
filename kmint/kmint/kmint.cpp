@@ -7,9 +7,11 @@
 #include "Graph_A_star.h"
 #include "Pill.h"
 #include "Weapon.h"
+#include "FleeState.h"
 #include "WanderState.h"
 #include "SearchPillState.h"
 #include "SearchEnemyState.h"
+#include "SearchWeaponState.h"
 #include "Bunny.h"
 #include "Cow.h"
 
@@ -21,7 +23,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(600,600), "KUnsTmatiGE inTELligentie!");
 	Graph_A_star* g = new Graph_A_star();
 	std::vector<Vertex*> busyVertices;
+	FleeState::Register(g);
 	WanderState::Register(g);
+	SearchWeaponState::Register(g);
 	SearchPillState::Register(g);
 	SearchEnemyState::Register(g);
 
