@@ -5,7 +5,8 @@
 #include "SDL_timer.h"
 #include <time.h>
 
-#include "ExampleGameObject.h"
+#include "Bee.h"
+#include "Beekeeper.h"
 
 
 int main(int args[])
@@ -52,8 +53,11 @@ int main(int args[])
 		application->DrawTexture(background, 0, 0);
 
 		// Dancing Bee
-		ExampleGameObject *example = new ExampleGameObject();
-		application->AddRenderable(example);
+		Bee *bee = new Bee();
+		application->AddRenderable(bee);
+
+		Beekeeper *beekeeper = new Beekeeper();
+		application->AddRenderable(beekeeper);
 		
 		// Text drawing
 		/*application->SetColor(Color(0, 0, 0, 255));
