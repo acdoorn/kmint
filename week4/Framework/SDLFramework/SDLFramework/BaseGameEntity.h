@@ -26,7 +26,7 @@ public:
 	const int getID();
 	const bool getTag();
 	void setTag(const bool);
-	void draw();
+	virtual void draw();
 	int getWidth();
 	int getHeight();
 	void setPosition(Vector2D);

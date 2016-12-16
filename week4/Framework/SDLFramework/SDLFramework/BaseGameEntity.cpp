@@ -1,4 +1,10 @@
 #include "BaseGameEntity.h"
+#include <SDL.h>
+#include <SDL_video.h>
+#include <SDL_render.h>
+#include <SDL_events.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 int BaseGameEntity::m_iNextValidId = 1;
 
@@ -43,7 +49,7 @@ void BaseGameEntity::draw()
 	{
 		int x = m_position.getX();
 		int y = m_position.getY();
-		FWApplication::GetInstance()->DrawTexture(m_texture,x + m_width/2 ,y+ m_height / 2, m_width, m_height);
+		FWApplication::GetInstance()->DrawTexture(m_texture,x ,y, m_width, m_height);
 	}
 }
 

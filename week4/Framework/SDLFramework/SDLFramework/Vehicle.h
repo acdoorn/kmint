@@ -20,7 +20,7 @@ public:
 
 	std::shared_ptr<SteeringBehaviors> getSteeringBehaviour();
 	void move(Vector2D, double);
-	std::vector<std::shared_ptr<MovingEntity>> getNeighbrous(double);
+	std::vector<std::shared_ptr<MovingEntity>> getNeighbours(double);
 	GameWorld* getWorld();
 };
 

@@ -12,7 +12,6 @@ class GameWorld
 	//http://stackoverflow.com/questions/5270540/calling-derived-class-functions-from-within-a-vector-c
 	std::vector<std::shared_ptr<MovingEntity>>gameObjects;
 	std::vector<std::shared_ptr<MovingEntity>>cows;
-	std::shared_ptr<MovingEntity>cow;
 	std::shared_ptr<MovingEntity>hare;
 public:
 	GameWorld();
@@ -20,7 +19,6 @@ public:
 	void update(double deltaTime, int command);
 	void update(double deltaTime);
 	void draw();
-	std::shared_ptr<MovingEntity> getCow();
 	std::shared_ptr<MovingEntity> getHare();
 	std::vector<std::shared_ptr<MovingEntity>>getCows();
 };

@@ -71,10 +71,10 @@ void Vehicle::move(Vector2D influence, double deltaTime)
 	}
 }
 
-std::vector<std::shared_ptr<MovingEntity>> Vehicle::getNeighbrous(double range)
+std::vector<std::shared_ptr<MovingEntity>> Vehicle::getNeighbours(double range)
 {
 
-	std::vector<std::shared_ptr<MovingEntity>> neighbours;
+	std::vector<std::shared_ptr<MovingEntity>> neighbours = std::vector<std::shared_ptr<MovingEntity>>();
 	for (const auto& value : m_world->getCows())
 	{
 		if (value->getID() != this->getID())

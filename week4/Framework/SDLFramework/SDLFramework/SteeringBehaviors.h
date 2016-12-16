@@ -29,6 +29,7 @@ public:
 	Vector2D pursuit(MovingEntity* evader);
 	Vector2D seperation();
 	Vector2D allignment();
+	Vector2D Cohesion();
 	double GenerateRandom(double, double);
 };
 

@@ -13,7 +13,7 @@ void WanderState::enter(Hare* hare)
 
 void WanderState::execute(Hare* hare, double deltaTime)
 {
-	const int panicDistance = 100;
+	const int panicDistance = 50;
 
 
 	std::vector<std::shared_ptr<MovingEntity>>cows = hare->getWorld()->getCows();
@@ -27,6 +27,7 @@ void WanderState::execute(Hare* hare, double deltaTime)
 			return;
 		}
 	}
+	
 	
 	
 	Vector2D influence = Vector2D(10,5);
@@ -50,6 +51,7 @@ void FleeState::enter(Hare* hare)
 void FleeState::execute(Hare* hare, double deltaTime)
 {
 	int distance;
+	const int safeDistance = 100;
 	bool safe = true;
 
 	Vector2D influence = Vector2D(0, 0);
@@ -59,7 +61,7 @@ void FleeState::execute(Hare* hare, double deltaTime)
 	for (const auto &value : cows)
 	{
 		distance = hare->getPosition().distanceTo(value->getPosition());
-		if (distance < 200)
+		if (distance < safeDistance)
 		{
 			if (!vectorSet)
 			{

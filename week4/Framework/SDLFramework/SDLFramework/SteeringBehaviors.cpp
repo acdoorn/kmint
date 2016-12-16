@@ -104,7 +104,7 @@ Vector2D SteeringBehaviors::seperation()
 {
 	const double range = 150;
 	Vector2D steeringForce;
-	for (auto& value : m_vehicle->getNeighbrous(range))
+	for (auto& value : m_vehicle->getNeighbours(range))
 	{
 		Vector2D toAgent = m_vehicle->getPosition() - value->getPosition();
 		steeringForce += toAgent.normalized() / toAgent.getLength();
@@ -114,21 +114,61 @@ Vector2D SteeringBehaviors::seperation()
 
 Vector2D SteeringBehaviors::allignment()
 {
-	const int range = 100;
-	Vector2D averageHeading;
-	for (auto& value : m_vehicle->getNeighbrous(range))
+	const int range = 150;
+	Vector2D averageHeading = Vector2D(0,0);
+	bool set = false;
+	for (auto& value : m_vehicle->getNeighbours(range))
 	{
-		averageHeading += value->getHeading();
-	}
-	averageHeading += m_vehicle->getHeading();
+		if(!set)
+		{
+			averageHeading = value->getHeading();
+			set = true;
+		}
+		else
+		{
 
-	int amountNeighbours = m_vehicle->getNeighbrous(range).size();
-	if (amountNeighbours > 0)
-	{
-		averageHeading = averageHeading / amountNeighbours;
-		averageHeading = averageHeading - m_vehicle->getHeading();
+			averageHeading += value->getHeading();
+		}
 	}
+	if (!set)
+	{
+		return Vector2D(0, 0);
+	}
+
+	int amountNeighbours = m_vehicle->getNeighbours(range).size();
+	averageHeading = averageHeading / (double)amountNeighbours;	
 	return averageHeading;
+}
+
+Vector2D SteeringBehaviors::Cohesion()
+{
+	const int range = 150;
+	Vector2D centerOfMass = Vector2D(0, 0);
+
+
+	bool set = false;
+	for (auto& value : m_vehicle->getNeighbours(range))
+	{
+		if (!set)
+		{
+			centerOfMass = value->getHeading();
+			set = true;
+		}
+		else
+		{
+
+			centerOfMass += value->getHeading();
+		}
+	}
+	if (!set)
+	{
+		return Vector2D(0, 0);
+	}
+
+	int amountNeighbours = m_vehicle->getNeighbours(range).size();
+	centerOfMass = centerOfMass / (double)amountNeighbours;
+	return seek(centerOfMass);
+
 }
 
 

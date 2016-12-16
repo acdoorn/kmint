@@ -29,9 +29,13 @@ void PursuitState::execute(Cow* cow, double deltaTime)
 	Vector2D influence = cow->getSteeringBehaviour()->pursuit(cow->getWorld()->getHare().get());
 	Vector2D seperation = cow->getSteeringBehaviour()->seperation() * 1000;
 	influence += seperation;
-	/*	Vector2D alignment = cow->getSteeringBehaviour()->allignment() * 0.001;
+	
+	Vector2D alignment = cow->getSteeringBehaviour()->allignment();
 	influence += alignment;
-	*/
+
+	Vector2D cohesion = cow->getSteeringBehaviour()->Cohesion() * 0.6;
+	influence += cohesion;
+	
 
 	cow->move(influence, deltaTime);
 }

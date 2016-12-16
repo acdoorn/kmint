@@ -21,9 +21,11 @@ public:
 	Vector2D getHeading();
 	void setVelocity(Vector2D);
 	void calculateHeading();
+	double getAngle();
 	//Tegenovergestelde vector van de richtings vector (velocity)
 	Vector2D m_side();
 	double getMass();
-	
+	 void draw() override;
+	 int getDirection();
 };
 
