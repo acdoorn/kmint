@@ -28,7 +28,7 @@ int main(int args[])
 	SDL_Texture* m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/arrow.png");
 
 
-	application->SetTargetFPS(60);
+	application->SetTargetFPS(90);
 	application->SetColor(Color(255, 10, 40, 255));
 	
 	
@@ -39,20 +39,8 @@ int main(int args[])
 	game.addObject();
 
 
-	Vector2D v1 = Vector2D(2, 4);
-	Vector2D v2 = Vector2D(3, 5);
-
-	std::cout << "Vector 1: "<< v1 << std::endl;
-	std::cout << "Vector 2: " << v2 << std::endl;
-	std::cout << "Opposite Vector 2: " << v2.opposite() << std::endl;
-	std::cout << "Distance: " << v1.distanceTo(v2) << std::endl;
-	std::cout << "v1 Normalized : " << v1.normalized() << std::endl;
-	std::cout << "v1 Normalized length : " << v1.normalized().getLength() << std::endl;
 	
-
-	std::cout << (v1 /4).getX() << "  " << (v1/4).getY() << std::endl; ;
-	const int maxFps = 15;
-	//while (true){}
+	
 	while (application->IsRunning())
 	{
 		double newTime = SDL_GetTicks();

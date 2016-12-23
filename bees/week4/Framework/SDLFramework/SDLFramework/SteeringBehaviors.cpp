@@ -178,7 +178,7 @@ Vector2D SteeringBehaviors::Cohesion()
 	{
 		return Vector2D(0, 0);
 	}
-	centerOfMass = centerOfMass / (double)amountNeighbours;
+	centerOfMass = centerOfMass / amountNeighbours;
 	return seek(centerOfMass);
 
 }

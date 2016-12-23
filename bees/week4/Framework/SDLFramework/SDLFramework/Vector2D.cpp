@@ -102,6 +102,17 @@ Vector2D Vector2D::operator-(const Vector2D & toSubstract)
 	return Vector2D(x, y);
 }
 
+Vector2D Vector2D::operator-=(const Vector2D & toSubstract)
+{
+	m_x -= toSubstract.getX();
+	m_y -= toSubstract.getY();
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
+	return *this;
+}
+
 Vector2D Vector2D::operator/(const double scalar)
 {
 	if (scalar == 0)

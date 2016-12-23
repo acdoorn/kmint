@@ -23,44 +23,46 @@ void GameWorld::addObject()
 	//Vehicle(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
 	
 	int beeSize = 12;
-	
+	int maxSpeed = 45;
+	int maxForce = 50;
+	int maxTurnRate = 150;
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i*30, 10, beeSize, beeSize, 1, 80, 90, 150, this, 150);
+		std::shared_ptr<Bee> bee = std::make_shared <Bee>(800, i*30, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
-	//for (int i = 0; i < 20; i++)
-	//{
-	//	std::shared_ptr<bee> bee = std::make_shared <bee>(i * 30,250, beesize, beesize, 1, 80, 90, 150, this, 150);
-	//	gameobjects.push_back(bee);
-	//	bees.push_back(bee);
-	//}
-
-	for (int i = 0; i < 20; i++)
+	/*for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 500, beeSize, beeSize, 1, 80, 90, 150, this, 150);
+		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30,250, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 600, beeSize, beeSize, 1, 80, 90, 150, this, 150);
+		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 500, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 400, beeSize, beeSize, 1, 80, 90, 150, this, 150);
+		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 600, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
 
+	for (int i = 0; i < 20; i++)
+	{
+		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 400, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
+		gameObjects.push_back(bee);
+		bees.push_back(bee);
+	}*/
 
-	m_beekeeper = std::make_shared<Beekeeper>(500, 350, 80, 80, 1, 130, 130, 150, this);
+
+	m_beekeeper = std::make_shared<Beekeeper>(500, 350, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
 	gameObjects.push_back(m_beekeeper);
 }
 
