@@ -91,8 +91,10 @@
     <ClCompile Include="BeeStates.cpp" />
     <ClCompile Include="Cow.cpp" />
     <ClCompile Include="CowStates.cpp" />
+    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="FWApplication.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Hare.cpp" />
     <ClCompile Include="HareStates.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -101,6 +103,7 @@
     <ClCompile Include="SteeringBehaviors.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SDL2.dll" />
@@ -114,8 +117,10 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Cow.h" />
     <ClInclude Include="CowStates.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="FWApplication.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Hare.h" />
     <ClInclude Include="HareStates.h" />
     <ClInclude Include="IGameObject.h" />
@@ -125,6 +130,7 @@
     <ClInclude Include="SteeringBehaviors.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

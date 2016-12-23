@@ -4,6 +4,7 @@
 #include "MovingEntity.h"
 #include <memory>
 #include "Vehicle.h"
+#include "Graph.h"
 
 
 class GameWorld
@@ -16,6 +17,7 @@ private:
 	std::vector<std::shared_ptr<MovingEntity>>bees;
 	std::shared_ptr<MovingEntity>m_beekeeper;
 	int m_score;
+	Graph* graph;
 public:
 	GameWorld();
 	void addCatch();
@@ -29,5 +31,6 @@ public:
 	void catchBee(std::shared_ptr<MovingEntity>);
 	std::shared_ptr<MovingEntity> getBeekeeper();
 	std::vector<std::shared_ptr<MovingEntity>>getBees();
+	Graph* getGraph();
 };
 

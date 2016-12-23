@@ -5,6 +5,9 @@
 Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world) :
 	Vehicle(x, y, width, height, mass, maxSpeed, maxForce, maxTurnRate, world), m_catchDistance(80)
 {
+	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 1);
+	x = currentVertex->x;
+	y = currentVertex->y;
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
 
 	std::shared_ptr<BeekeeperWanderState> initialState = std::make_shared<BeekeeperWanderState>();
@@ -19,7 +22,15 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 	return m_stateMachine;
 }
 
+Vertex* Beekeeper::nextVertex() {
+	return getWorld()->getGraph()->GetNextVertex(currentVertex, getWorld()->getGraph()->vertices.at(1));
+}
 
+void Beekeeper::checkVertex() {
+	if (getPosition().getX() == nextVertex()->x && getPosition().getY() == nextVertex()->y) {
+		currentVertex = nextVertex();
+	}
+}
 
 void Beekeeper::update(double deltaTime)
 {

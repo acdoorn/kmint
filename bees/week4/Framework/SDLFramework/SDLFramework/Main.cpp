@@ -7,14 +7,14 @@
 #include "MovingEntity.h"
 #include "Vector2D.h"
 #include "GameWorld.h"
+#include "Graph.h"
 
 int main(int args[])
 {
 	
-
 	try{
-	const int screenwidth = 1000;
-	const int screenheight = 700;
+	const int screenwidth = 600;
+	const int screenheight = 600;
 
 	//auto window = Window::CreateSDLWindow();
 	auto application = new FWApplication(100,100,screenwidth,screenheight);
@@ -30,7 +30,7 @@ int main(int args[])
 
 	application->SetTargetFPS(60);
 	application->SetColor(Color(255, 10, 40, 255));
-	
+
 	
 	//used to check time between updates
 	int oldTime = SDL_GetTicks();
@@ -81,6 +81,8 @@ int main(int args[])
 			}
 
 
+			SDL_Texture *background = application->LoadTexture("map.png");
+			application->DrawTexture(background, 0, 0);
 
 			game.update(timeDifference);
 			game.draw();

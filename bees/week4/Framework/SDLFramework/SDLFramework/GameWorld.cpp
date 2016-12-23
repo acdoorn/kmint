@@ -9,6 +9,7 @@
 
 GameWorld::GameWorld()
 {
+	graph = new Graph();
 	m_score = 0;
 	bee_texture = FWApplication::GetInstance()->LoadTexture("../Resources/bee.png");
 }
@@ -134,4 +135,8 @@ std::shared_ptr<MovingEntity> GameWorld::getBeekeeper()
 std::vector<std::shared_ptr<MovingEntity>> GameWorld::getBees()
 {
 	return bees;
+}
+
+Graph* GameWorld::getGraph() {
+	return graph;
 }
