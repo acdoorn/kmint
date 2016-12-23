@@ -31,12 +31,12 @@ void GameWorld::addObject()
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
-	for (int i = 0; i < 20; i++)
-	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30,250, beeSize, beeSize, 1, 80, 90, 150, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
-	}
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	std::shared_ptr<bee> bee = std::make_shared <bee>(i * 30,250, beesize, beesize, 1, 80, 90, 150, this, 150);
+	//	gameobjects.push_back(bee);
+	//	bees.push_back(bee);
+	//}
 
 	for (int i = 0; i < 20; i++)
 	{

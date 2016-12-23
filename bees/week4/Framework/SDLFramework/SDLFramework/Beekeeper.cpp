@@ -10,7 +10,7 @@ Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, dou
 	std::shared_ptr<BeekeeperWanderState> initialState = std::make_shared<BeekeeperWanderState>();
 	m_stateMachine->setCurrentState(initialState);
 	m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/beekeeper.png");
-	m_netTexture = FWApplication::GetInstance()->LoadTexture("../Resources/net.png");
+	//m_netTexture = FWApplication::GetInstance()->LoadTexture("../Resources/net.png");
 	m_areaTexture = FWApplication::GetInstance()->LoadTexture("../Resources/catcharea.png");
 }
 
@@ -24,7 +24,7 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 void Beekeeper::update(double deltaTime)
 {
 	m_stateMachine->update(deltaTime);
-	m_catchDistance += deltaTime * 4;
+	//m_catchDistance += deltaTime * 4;
 }
 
 double Beekeeper::getCatchDistance()
@@ -41,7 +41,7 @@ void Beekeeper::draw()
 		
 		
 		FWApplication::GetInstance()->DrawTexture(m_areaTexture, x, y, m_catchDistance * 2, m_catchDistance * 2, getAngle(), getDirection());
-		FWApplication::GetInstance()->DrawTexture(m_netTexture, x, y, m_catchDistance *2, m_catchDistance * 2, getAngle(), getDirection());
+		//FWApplication::GetInstance()->DrawTexture(m_netTexture, x, y, m_catchDistance *2, m_catchDistance * 2, getAngle(), getDirection());
 
 
 		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height, 270, 0);

@@ -5,7 +5,7 @@
 Bee::~Bee()
 {
 	getWorld()->addCatch();
-	std::cout << "Bee destroyed" << std::endl;
+	std::cout << "Bee destroyed " << m_position <<  "  -  " << getWorld()->getBeekeeper()->getPosition() <<  std::endl;
 }
 
 Bee::Bee(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world,int fleeDistance) :
@@ -15,6 +15,7 @@ Bee::Bee(double x, double y, int width, int height, double mass, double maxSpeed
 
 	std::shared_ptr<WanderFlockState> initialState = std::make_shared<WanderFlockState>();
 	m_stateMachine->setCurrentState(initialState);
+	//m_texture = world->getBeeTexture();
 	m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/bee.png");
 }
 
