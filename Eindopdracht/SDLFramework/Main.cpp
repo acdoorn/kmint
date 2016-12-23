@@ -5,6 +5,7 @@
 #include "SDL_timer.h"
 #include <time.h>
 
+#include "Graph.h"
 #include "Bee.h"
 #include "Beekeeper.h"
 
@@ -13,6 +14,7 @@ int main(int args[])
 {
 	//auto window = Window::CreateSDLWindow();
 	auto application = new FWApplication();
+	auto graph = new Graph();
 	if (!application->GetWindow())
 	{
 		LOG("Couldn't create window...");
@@ -56,7 +58,8 @@ int main(int args[])
 		Bee *bee = new Bee();
 		application->AddRenderable(bee);
 
-		Beekeeper *beekeeper = new Beekeeper();
+		Beekeeper *beekeeper = new Beekeeper(graph, bee);
+		bee->location = graph->GetRandomVertixNot(beekeeper->location);
 		application->AddRenderable(beekeeper);
 		
 		// Text drawing
