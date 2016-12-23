@@ -8,7 +8,7 @@ public:
 	Bee();
 	~Bee();
 	void Update(float deltaTime);
-	Vertex* location;
+	Vertex* location = new Vertex(300, 300);
 
 private:
 	SDL_Texture *texture;

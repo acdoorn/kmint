@@ -23,8 +23,16 @@ int main(int args[])
 	
 	application->SetTargetFPS(60);
 	application->SetColor(Color(255, 255, 255, 255));
-	
 
+
+	// Dancing Bee
+	Bee *bee = new Bee();
+
+	Beekeeper *beekeeper = new Beekeeper(graph, bee);
+
+
+	application->AddRenderable(bee);
+	application->AddRenderable(beekeeper);
 	//while (true){}
 	while (application->IsRunning())
 	{
@@ -49,18 +57,9 @@ int main(int args[])
 		
 		// This is example code, replace with your own!
 
-		
 		// Draw background
 		SDL_Texture *background = application->LoadTexture("map.png");
 		application->DrawTexture(background, 0, 0);
-
-		// Dancing Bee
-		Bee *bee = new Bee();
-		application->AddRenderable(bee);
-
-		Beekeeper *beekeeper = new Beekeeper(graph, bee);
-		bee->location = graph->GetRandomVertixNot(beekeeper->location);
-		application->AddRenderable(beekeeper);
 		
 		// Text drawing
 		/*application->SetColor(Color(0, 0, 0, 255));

@@ -13,6 +13,8 @@ Bee::~Bee() {
 
 void Bee::Update(float deltaTime) {
 	//const int x = (int)(sin(mApplication->GetTimeSinceStartedMS() / 300.0) * 15.0 + 400);
-	const int y = (int)(sin(mApplication->GetTimeSinceStartedMS() / 300.0) * 15.0 + 300);
-	SetOffset(300, y);
+	//const int y = (int)(sin(mApplication->GetTimeSinceStartedMS() / 300.0) * 15.0 + 300);
+	SetOffset(300, 300);
+	location->x = 300;
+	location->y = 300;
 }
