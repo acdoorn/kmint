@@ -103,7 +103,7 @@ Vector2D SteeringBehaviors::pursuit( MovingEntity* evader)
 Vector2D SteeringBehaviors::seperation()
 {
 	const double range = 150;
-	Vector2D steeringForce;
+	Vector2D steeringForce = Vector2D(0,0);
 	bool set = false;
 	for (auto& value : m_vehicle->getNeighbours(range))
 	{
@@ -178,7 +178,7 @@ Vector2D SteeringBehaviors::Cohesion()
 	{
 		return Vector2D(0, 0);
 	}
-	centerOfMass = centerOfMass / (double)amountNeighbours;
+	centerOfMass = centerOfMass / amountNeighbours;
 	return seek(centerOfMass);
 
 }

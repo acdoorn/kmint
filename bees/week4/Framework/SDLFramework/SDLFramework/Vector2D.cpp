@@ -68,7 +68,12 @@ double Vector2D::distanceTo(const Vector2D & destination)
 {
 	double differenceX = m_x - destination.getX();
 	double differenceY = m_y - destination.getY();
-	double distance = sqrt(differenceX*differenceX + differenceY * differenceY);
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
+	int i = abs(differenceX*differenceX + differenceY * differenceY);
+	double distance = sqrt(i);
 	return fabs(distance);
 }
 
@@ -76,6 +81,10 @@ Vector2D& Vector2D::operator+=(const Vector2D& toAdd)
 {
 	m_x += toAdd.getX();
 	m_y += toAdd.getY();
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
 	return *this;
 }
 
@@ -93,11 +102,31 @@ Vector2D Vector2D::operator-(const Vector2D & toSubstract)
 	return Vector2D(x, y);
 }
 
+Vector2D Vector2D::operator-=(const Vector2D & toSubstract)
+{
+	m_x -= toSubstract.getX();
+	m_y -= toSubstract.getY();
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
+	return *this;
+}
+
 Vector2D Vector2D::operator/(const double scalar)
 {
+	if (scalar == 0)
+	{
+		return Vector2D(m_x, m_y);
+	}
+
 	double x = m_x / scalar;
 	double y = m_y / scalar;
 	Vector2D returnVal = Vector2D(x, y);
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
 	return returnVal;
 }
 
@@ -106,6 +135,10 @@ Vector2D Vector2D::operator*(const double scalar)
 	double x = m_x * scalar;
 	double y = m_y * scalar;
 	Vector2D returnVal = Vector2D(x, y);
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
 	return returnVal;
 }
 
@@ -114,6 +147,10 @@ Vector2D & Vector2D::operator*=(const double scalar)
 {
 	m_x = m_x * scalar;
 	m_y = m_y * scalar;
+	if (isnan(m_x) || isnan(m_y))
+	{
+		std::cout << "probleem";
+	}
 	return *this;
 }
 
@@ -129,6 +166,10 @@ std::ostream & Vector2D::operator<<(std::ostream & os)
 
 std::ostream & operator<<(std::ostream & os, const Vector2D & vector)
 {
+	if (isnan(vector.m_x) || isnan(vector.m_y))
+	{
+		os << "probleem";
+	}
 	os << vector.m_x << " , " << vector.m_y;
 	return os;
 	// TODO: insert return statement here

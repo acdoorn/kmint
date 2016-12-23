@@ -7,6 +7,8 @@ MovingEntity::MovingEntity(double x, double y, int width, int height, double mas
 	:BaseGameEntity(x, y,width,height),
 	m_maxSpeed(maxSpeed),m_maxForce(maxForce),m_maxTurnRate(maxTurnRate),m_mass(mass)
 {
+	m_velocity = Vector2D(0, 0);
+	m_heading = Vector2D(0, 0);
 }
 
 double MovingEntity::getMaxSpeed()

@@ -27,6 +27,7 @@ GameWorld * Vehicle::getWorld()
 void Vehicle::move(Vector2D influence, double deltaTime)
 {
 	Vector2D steeringForce = influence;
+	
 
 	// acceleration = Force/Mass
 	Vector2D acceleration = steeringForce / m_mass;
