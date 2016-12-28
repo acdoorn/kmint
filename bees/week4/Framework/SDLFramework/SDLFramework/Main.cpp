@@ -13,9 +13,13 @@ int main(int args[])
 	
 
 	try{
-	const int screenwidth = 1000;
-	const int screenheight = 700;
+	const int screenwidth = 600;
+	const int screenheight = 600;
 
+	//om het spel sneller te laten verlopen
+	double multiplier = 1;
+
+	//window wordt niet gebruikt?
 	//auto window = Window::CreateSDLWindow();
 	auto application = new FWApplication(100,100,screenwidth,screenheight);
 	if (!application->GetWindow())
@@ -25,7 +29,7 @@ int main(int args[])
 	}
 	
 	
-	SDL_Texture* m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/arrow.png");
+	SDL_Texture* map_texture = FWApplication::GetInstance()->LoadTexture("../Resources/map.png");
 
 
 	application->SetTargetFPS(90);
@@ -45,7 +49,7 @@ int main(int args[])
 	{
 		double newTime = SDL_GetTicks();
 		double deltaTime = newTime - oldTime;
-		double timeDifference = deltaTime / 1000;
+		double timeDifference = (deltaTime / 1000)*multiplier;
 
 			oldTime = newTime;
 			application->StartTick();
@@ -59,16 +63,46 @@ int main(int args[])
 					application->Quit();
 					break;
 				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym) {
+					switch (event.key.keysym.sym) 
+					{
 					case SDLK_w:
 						break;
 					default:
 						break;
 					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					switch (event.button.button)
+					{
+					case(SDL_BUTTON_LEFT) :
+						multiplier = 1;
+						break;
+					case(SDL_BUTTON_RIGHT) :
+						multiplier = 0;
+						break;
+					default:
+						break;
+					}
+					break;
+				case SDL_MOUSEWHEEL:
+					if (event.wheel.y > 0)
+					{
+
+						multiplier += 0.1;
+					}
+					else if (event.wheel.y < 0)
+					{
+						if (multiplier > 0.1)
+						{
+							multiplier -= 0.1;
+						}
+					}
+					
+
 				}
 			}
 
-
+			FWApplication::GetInstance()->DrawTexture(map_texture, 300,300, 600, 600);
 
 			game.update(timeDifference);
 			game.draw();

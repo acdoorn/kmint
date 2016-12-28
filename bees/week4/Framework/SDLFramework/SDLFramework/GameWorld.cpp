@@ -33,7 +33,7 @@ void GameWorld::addObject()
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
 	}
-	/*for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30,250, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
@@ -59,7 +59,7 @@ void GameWorld::addObject()
 		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 400, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
 		gameObjects.push_back(bee);
 		bees.push_back(bee);
-	}*/
+	}
 
 
 	m_beekeeper = std::make_shared<Beekeeper>(500, 350, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
