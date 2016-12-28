@@ -63,7 +63,7 @@ void GameWorld::addObject()
 	}*/
 
 
-	m_beekeeper = std::make_shared<Beekeeper>(500, 350, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
+	m_beekeeper = std::make_shared<Beekeeper>(0, 0, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
 	gameObjects.push_back(m_beekeeper);
 }
 

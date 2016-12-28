@@ -6,8 +6,8 @@ Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, dou
 	Vehicle(x, y, width, height, mass, maxSpeed, maxForce, maxTurnRate, world), m_catchDistance(80)
 {
 	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 1);
-	x = currentVertex->x;
-	y = currentVertex->y;
+	m_position.setX(currentVertex->x);
+	m_position.setY(currentVertex->y);
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
 
 	std::shared_ptr<BeekeeperWanderState> initialState = std::make_shared<BeekeeperWanderState>();
@@ -23,13 +23,17 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 }
 
 Vertex* Beekeeper::nextVertex() {
-	return getWorld()->getGraph()->GetNextVertex(currentVertex, getWorld()->getGraph()->vertices.at(1));
+	return getWorld()->getGraph()->GetNextVertex(currentVertex, getWorld()->getGraph()->vertices.at(15));
 }
 
 void Beekeeper::checkVertex() {
-	if (getPosition().getX() == nextVertex()->x && getPosition().getY() == nextVertex()->y) {
-		currentVertex = nextVertex();
+	Vertex* nextvertex = nextVertex(); 
+	int diffX = getPosition().getX() - nextvertex->x;
+	int diffY = getPosition().getY() - nextvertex->y;
+	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
+		currentVertex = nextvertex;
 	}
+		
 }
 
 void Beekeeper::update(double deltaTime)
