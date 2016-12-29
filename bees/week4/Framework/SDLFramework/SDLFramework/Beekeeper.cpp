@@ -24,7 +24,7 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 void Beekeeper::update(double deltaTime)
 {
 	m_stateMachine->update(deltaTime);
-	//m_catchDistance += deltaTime * 4;
+	m_catchDistance += deltaTime * 0.4;
 }
 
 double Beekeeper::getCatchDistance()
@@ -40,13 +40,16 @@ void Beekeeper::draw()
 		int y = m_position.getY();
 		
 		
-		FWApplication::GetInstance()->DrawTexture(m_areaTexture, x, y, m_catchDistance * 2, m_catchDistance * 2, getAngle(), getDirection());
-		//FWApplication::GetInstance()->DrawTexture(m_netTexture, x, y, m_catchDistance *2, m_catchDistance * 2, getAngle(), getDirection());
+		FWApplication::GetInstance()->DrawTexture(m_areaTexture, x, y, m_catchDistance * 2, m_catchDistance * 2);
 
 
-		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height, 270, 0);
-		FWApplication::GetInstance()->SetColor(Color(255, 10, 40, 255));
+		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height,  getAngle(), getDirection());
+		FWApplication::GetInstance()->SetColor(Color(0, 0, 0, 5));
 
+		//statistieken printen
+
+		FWApplication::GetInstance()->DrawRect(0, 0, 200, 50, true);
+		FWApplication::GetInstance()->SetColor(Color(255, 204, 204, 100));
 		FWApplication::GetInstance()->DrawText("Distance : "+ std::to_string(m_catchDistance) ,100,10);
 		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 30);
 		

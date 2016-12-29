@@ -47,18 +47,6 @@
     <ClCompile Include="State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CowStates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HareStates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hare.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,12 +76,6 @@
     <ClInclude Include="SteeringBehaviors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CowStates.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="HareStates.h">
-      <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
       <Filter>States</Filter>
     </ClInclude>
@@ -106,13 +88,7 @@
     <ClInclude Include="GameWorld.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Hare.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="IGameObject.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Cow.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="MovingEntity.h">
