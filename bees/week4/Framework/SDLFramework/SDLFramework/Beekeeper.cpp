@@ -22,16 +22,41 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 	return m_stateMachine;
 }
 
-Vertex* Beekeeper::nextVertex() {
-	return getWorld()->getGraph()->GetNextVertex(currentVertex, getWorld()->getGraph()->vertices.at(15));
+Vertex* Beekeeper::calcNextVertex() {
+	std::shared_ptr<MovingEntity> closestBee;
+	Vertex* closestBeeVertex = currentVertex;
+	double closestDistance = 800;
+	for (auto &value :getWorld()->getBees())
+	{
+		if (getPosition().distanceTo(value->getPosition()) < closestDistance)
+		{
+			closestBee = value;
+			closestDistance = getPosition().distanceTo(value->getPosition());
+		}
+	}
+	closestDistance = 900;
+	for (auto* value : getWorld()->getGraph()->vertices)
+	{
+		if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
+		{
+			closestBeeVertex = value;
+			closestDistance = closestBee->getPosition().distanceTo(Vector2D(value->x, value->y));
+		}
+	}
+
+	return getWorld()->getGraph()->GetNextVertex(currentVertex, closestBeeVertex);
+}
+
+Vertex* Beekeeper::getNextVertex() {
+	return nextVertex;
 }
 
 void Beekeeper::checkVertex() {
-	Vertex* nextvertex = nextVertex(); 
-	int diffX = getPosition().getX() - nextvertex->x;
-	int diffY = getPosition().getY() - nextvertex->y;
+	nextVertex = calcNextVertex(); 
+	double diffX = getPosition().getX() - nextVertex->x;
+	double diffY = getPosition().getY() - nextVertex->y;
 	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
-		currentVertex = nextvertex;
+		currentVertex = nextVertex;
 	}
 		
 }
