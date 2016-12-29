@@ -86,8 +86,10 @@
   <ItemGroup>
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Bee.cpp" />
+    <ClCompile Include="BeeGenerator.cpp" />
     <ClCompile Include="Beekeeper.cpp" />
     <ClCompile Include="BeekeeperStates.cpp" />
+    <ClCompile Include="BeeStat.cpp" />
     <ClCompile Include="BeeStates.cpp" />
     <ClCompile Include="FWApplication.cpp" />
     <ClCompile Include="GameWorld.cpp" />
@@ -104,8 +106,10 @@
   <ItemGroup>
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Bee.h" />
+    <ClInclude Include="BeeGenerator.h" />
     <ClInclude Include="Beekeeper.h" />
     <ClInclude Include="BeekeeperStates.h" />
+    <ClInclude Include="BeeStat.h" />
     <ClInclude Include="BeeStates.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="FWApplication.h" />
