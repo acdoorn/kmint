@@ -57,7 +57,7 @@ void WanderFlockState::execute(Bee * bee, double deltaTime)
 
 	Vector2D  influence = Vector2D(0,0);
 
-	Vector2D seperation = bee->getSteeringBehaviour()->seperation() * 1000;
+	Vector2D seperation = bee->getSteeringBehaviour()->seperation() * 800;
 	influence += seperation;
 
 	Vector2D alignment = bee->getSteeringBehaviour()->allignment() * 300;

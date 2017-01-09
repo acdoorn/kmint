@@ -50,8 +50,8 @@ void Beekeeper::draw()
 
 		FWApplication::GetInstance()->DrawRect(0, 0, 200, 50, true);
 		FWApplication::GetInstance()->SetColor(Color(255, 204, 204, 100));
-		FWApplication::GetInstance()->DrawText("Distance : "+ std::to_string(m_catchDistance) ,100,10);
-		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 30);
+		FWApplication::GetInstance()->DrawText("Distance : "+ std::to_string(m_catchDistance) ,100,5);
+		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 17);
 		
 		
 		

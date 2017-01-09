@@ -4,7 +4,7 @@
 #include "MovingEntity.h"
 #include <memory>
 #include "Vehicle.h"
-
+#include "BeeStruct.h"
 
 class GameWorld
 {
@@ -13,12 +13,16 @@ private:
 	//Pointers gebruikt omdat ander .update niet kan worden aangeroepen	
 	//http://stackoverflow.com/questions/5270540/calling-derived-class-functions-from-within-a-vector-c
 	std::vector<std::shared_ptr<MovingEntity>>gameObjects;
+	std::vector<BeeStruct>caught;
 	std::vector<std::shared_ptr<MovingEntity>>bees;
 	std::shared_ptr<MovingEntity>m_beekeeper;
+	void addBee(int,int);
 	int m_score;
+	int m_generation;
+	void nextGeneration();
 public:
 	GameWorld();
-	void addCatch();
+	void addCatch(BeeStruct);
 	void addObject();
 	void update(double deltaTime);
 	void draw();

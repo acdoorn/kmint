@@ -7,10 +7,14 @@
 #include "MovingEntity.h"
 #include "Vector2D.h"
 #include "GameWorld.h"
+#include "Helper.h"
 
 int main(int args[])
 {
-	
+	for (int i = 0; i < 10; i++)
+	{
+		std::cout << Helper::getRandomDouble(1,100) << std::endl;
+	}
 
 	try{
 	const int screenwidth = 600;

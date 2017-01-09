@@ -3,60 +3,73 @@
 #include "Bee.h"
 #include "Beekeeper.h"
 #include <algorithm>
+#include "BeeGenerator.h"
+#include <string> 
+void GameWorld::addBee( int x, int y )
+{
+	BeeGenerator m_beeGenerator;
+	std::shared_ptr<Bee> bee = m_beeGenerator.generateBee(x,y, this);
+	gameObjects.push_back(bee);
+	bees.push_back(bee);
+}
 
+void GameWorld::nextGeneration()
+{
+	gameObjects = std::vector<std::shared_ptr<MovingEntity>>();
+	m_score = 0;
+	m_generation++;
+	addObject();
+
+}
 
 GameWorld::GameWorld()
 {
 	m_score = 0;
+	m_generation = 0;
 	bee_texture = FWApplication::GetInstance()->LoadTexture("../Resources/bee.png");
 }
 
-void GameWorld::addCatch()
+void GameWorld::addCatch(BeeStruct bee)
 {
-	m_score++;
+	caught.push_back(bee);
+	m_score++;	
 }
+
+
 
 void GameWorld::addObject()
 {
 	//Vehicle(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
-	
 	int beeSize = 20;
-	int maxSpeed = 45;
-	int maxForce = 50;
+	int minSpeed = 40;
+	int maxSpeed = 50;
+	int minForce = 45;
+	int maxForce = 55;
 	int maxTurnRate = 150;
-
+	BeeGenerator m_beeGenerator;
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(500, i*30, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
+		addBee(500, i * 30);
 	}
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30,150, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
+
+		addBee(i * 30, 150);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 450, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
+		addBee(i * 30, 450);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(i * 30, 550, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
+		addBee(i * 30, 550);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
-		std::shared_ptr<Bee> bee = std::make_shared <Bee>(550, i * 30, beeSize, beeSize, 1, maxSpeed, maxForce, maxTurnRate, this, 150);
-		gameObjects.push_back(bee);
-		bees.push_back(bee);
+		addBee(550, i * 30);
 	}
 
 
@@ -68,18 +81,31 @@ void GameWorld::addObject()
 
 void GameWorld::update(double deltaTime)
 {
-	for (const auto &value : gameObjects)
-	{
-		value->update(deltaTime);
+	if (m_score == 100)
+	{		
+		nextGeneration();
 	}
-	catchBees();
+	else
+	{
+		for (const auto &value : gameObjects)
+		{
+			value->update(deltaTime);
+		}
+		catchBees();
+	}
+	
 }
 
 void GameWorld::draw()
 {
-	for (const auto &value : gameObjects)
+	if (m_score != 100)
 	{
-		value->draw();
+
+		for (const auto &value : gameObjects)
+		{
+			value->draw();
+		}
+		FWApplication::GetInstance()->DrawText("generation : " + std::to_string(m_generation) , 100, 29);
 	}
 }
 
