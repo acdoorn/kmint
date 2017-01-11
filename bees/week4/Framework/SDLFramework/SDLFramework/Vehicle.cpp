@@ -53,22 +53,22 @@ void Vehicle::move(Vector2D influence, double deltaTime)
 	double x = m_position.getX();
 	double y = m_position.getY();
 
-	if (x > 600)
+	if (x > 610)
 	{
-		m_position.setX(x - 600);
+		m_position.setX(x - 610);
 	}
-	else if (x < 0)
+	else if (x < -10)
 	{
-		m_position.setX(x + 600);
+		m_position.setX(x + 610);
 	}
 
-	if (y > 600)
+	if (y > 610)
 	{
-		m_position.setY(y - 600);
+		m_position.setY(y - 610);
 	}
-	else if (y < 0)
+	else if (y < -10)
 	{
-		m_position.setY(y + 600);
+		m_position.setY(y + 610);
 	}
 }
 

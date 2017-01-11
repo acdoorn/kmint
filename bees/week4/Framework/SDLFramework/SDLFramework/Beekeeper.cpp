@@ -5,6 +5,9 @@
 Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world) :
 	Vehicle(x, y, width, height, mass, maxSpeed, maxForce, maxTurnRate, world), m_catchDistance(80)
 {
+	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 1);
+	m_position.setX(currentVertex->x);
+	m_position.setY(currentVertex->y);
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
 
 	std::shared_ptr<BeekeeperWanderState> initialState = std::make_shared<BeekeeperWanderState>();
@@ -19,12 +22,52 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 	return m_stateMachine;
 }
 
+Vertex* Beekeeper::calcNextVertex() {
+	std::shared_ptr<MovingEntity> closestBee;
+	Vertex* closestBeeVertex = currentVertex;
+	double closestDistance = 800;
+	for (auto &value : getWorld()->getBees())
+	{
+		if (getPosition().distanceTo(value->getPosition()) < closestDistance)
+		{
+			closestBee = value;
+			closestDistance = getPosition().distanceTo(value->getPosition());
+		}
+	}
+	closestDistance = 900;
+	for (auto* value : getWorld()->getGraph()->vertices)
+	{
+		if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
+		{
+			closestBeeVertex = value;
+			closestDistance = closestBee->getPosition().distanceTo(Vector2D(value->x, value->y));
+		}
+	}
 
+	return getWorld()->getGraph()->GetNextVertex(currentVertex, closestBeeVertex);
+}
+
+Vertex* Beekeeper::getNextVertex() {
+	return nextVertex;
+}
+
+void Beekeeper::checkVertex() {
+	nextVertex = calcNextVertex();
+	if (nextVertex == nullptr) {
+		nextVertex = currentVertex;
+	}
+	double diffX = getPosition().getX() - nextVertex->x;
+	double diffY = getPosition().getY() - nextVertex->y;
+	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
+		currentVertex = nextVertex;
+	}
+
+}
 
 void Beekeeper::update(double deltaTime)
 {
 	m_stateMachine->update(deltaTime);
-	m_catchDistance += deltaTime * 0.4;
+	//m_catchDistance += deltaTime * 4;
 }
 
 double Beekeeper::getCatchDistance()
@@ -38,24 +81,20 @@ void Beekeeper::draw()
 	{
 		int x = m_position.getX();
 		int y = m_position.getY();
-		
-		
-		FWApplication::GetInstance()->DrawTexture(m_areaTexture, x, y, m_catchDistance * 2, m_catchDistance * 2);
 
 
-		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height,  getAngle(), getDirection());
-		FWApplication::GetInstance()->SetColor(Color(0, 0, 0, 5));
+		FWApplication::GetInstance()->DrawTexture(m_areaTexture, x, y, m_catchDistance * 2, m_catchDistance * 2, getAngle(), getDirection());
+		//FWApplication::GetInstance()->DrawTexture(m_netTexture, x, y, m_catchDistance *2, m_catchDistance * 2, getAngle(), getDirection());
 
-		//statistieken printen
 
-		FWApplication::GetInstance()->DrawRect(0, 0, 200, 50, true);
-		FWApplication::GetInstance()->SetColor(Color(255, 204, 204, 100));
-		FWApplication::GetInstance()->DrawText("Distance : "+ std::to_string(m_catchDistance) ,100,5);
+		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height, 270, 0);
+		FWApplication::GetInstance()->SetColor(Color(255, 10, 40, 255));
+
+		FWApplication::GetInstance()->DrawText("Distance : " + std::to_string(m_catchDistance), 100, 5);
 		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 17);
-		
-		
-		
+
+
+
 	}
 }
-
 

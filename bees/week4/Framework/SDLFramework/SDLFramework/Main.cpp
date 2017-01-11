@@ -38,7 +38,7 @@ int main(int args[])
 
 	application->SetTargetFPS(90);
 	application->SetColor(Color(255, 10, 40, 255));
-	
+
 	
 	//used to check time between updates
 	int oldTime = SDL_GetTicks();
@@ -106,7 +106,7 @@ int main(int args[])
 				}
 			}
 
-			FWApplication::GetInstance()->DrawTexture(map_texture, 300,300, 600, 600);
+			application->DrawTexture(map_texture, 0, 0);
 
 			game.update(timeDifference);
 			game.draw();

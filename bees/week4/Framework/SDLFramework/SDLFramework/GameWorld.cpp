@@ -27,6 +27,7 @@ void GameWorld::nextGeneration()
 
 GameWorld::GameWorld()
 {
+	graph = new Graph();
 	m_score = 0;
 	m_generation = 1;
 	m_generationTime = 0;
@@ -70,11 +71,10 @@ void GameWorld::addObject()
 	{
 		addBee(550, i * 30);
 	}
-
 	int maxSpeed = 50;
 	int maxForce = 55;
 	int maxTurnRate = 150;
-	m_beekeeper = std::make_shared<Beekeeper>(300, 300, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
+	m_beekeeper = std::make_shared<Beekeeper>(0, 0, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
 	gameObjects.push_back(m_beekeeper);
 }
 
@@ -162,4 +162,8 @@ std::shared_ptr<MovingEntity> GameWorld::getBeekeeper()
 std::vector<std::shared_ptr<MovingEntity>> GameWorld::getBees()
 {
 	return bees;
+}
+
+Graph* GameWorld::getGraph() {
+	return graph;
 }

@@ -1,5 +1,6 @@
 #include "BeekeeperStates.h"
 #include "Beekeeper.h"
+#include "Graph.h"
 
 void BeekeeperWanderState::enter(Beekeeper *)
 {
@@ -7,11 +8,11 @@ void BeekeeperWanderState::enter(Beekeeper *)
 
 void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 {
-	/*Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(100,100));
-	Vector2D influence = seperation;*/
+	beekeeper->checkVertex();
+	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(beekeeper->getNextVertex()->x, beekeeper->getNextVertex()->y));
+	Vector2D influence = seperation;
 
-	beekeeper->move(Vector2D(2,2), deltaTime);
-
+	beekeeper->move(influence, deltaTime);
 }
 
 void BeekeeperWanderState::exit(Beekeeper *)

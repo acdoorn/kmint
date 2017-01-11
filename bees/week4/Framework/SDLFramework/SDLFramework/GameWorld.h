@@ -5,6 +5,7 @@
 #include <memory>
 #include "Vehicle.h"
 #include "BeeStruct.h"
+#include "Graph.h"
 
 class GameWorld
 {
@@ -21,6 +22,7 @@ private:
 	int m_generation;
 	void nextGeneration();
 	double m_generationTime;
+	Graph* graph;
 public:
 	GameWorld();
 	void addCatch(BeeStruct);
@@ -34,5 +36,6 @@ public:
 	void catchBee(std::shared_ptr<MovingEntity>);
 	std::shared_ptr<MovingEntity> getBeekeeper();
 	std::vector<std::shared_ptr<MovingEntity>>getBees();
+	Graph* getGraph();
 };
 
