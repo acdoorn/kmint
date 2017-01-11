@@ -6,7 +6,7 @@ Bee::~Bee()
 {
 	BeeStruct toAdd = BeeStruct(0,m_maxSpeed,m_maxForce,m_fleeDistance  );
 	getWorld()->addCatch(toAdd);
-	std::cout << "Bee destroyed " << m_position <<  "  -  " << getWorld()->getBeekeeper()->getPosition() <<  " Flee Distance: "<<m_fleeDistance<< std::endl;
+	//std::cout << "Bee destroyed " << m_position <<  "  -  " << getWorld()->getBeekeeper()->getPosition() <<  " Flee Distance: "<<m_fleeDistance<< std::endl;
 }
 
 Bee::Bee(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world,int fleeDistance) :

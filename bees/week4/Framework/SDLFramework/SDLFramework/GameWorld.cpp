@@ -15,22 +15,27 @@ void GameWorld::addBee( int x, int y )
 
 void GameWorld::nextGeneration()
 {
+	BeeGenerator m_beeGenerator;
 	gameObjects = std::vector<std::shared_ptr<MovingEntity>>();
+	 m_beeGenerator.getNextGeneration(caught);
+	addObject();
 	m_score = 0;
 	m_generation++;
-	addObject();
+	m_generationTime = 0;
 
 }
 
 GameWorld::GameWorld()
 {
 	m_score = 0;
-	m_generation = 0;
+	m_generation = 1;
+	m_generationTime = 0;
 	bee_texture = FWApplication::GetInstance()->LoadTexture("../Resources/bee.png");
 }
 
 void GameWorld::addCatch(BeeStruct bee)
 {
+	bee.m_timeAlive = m_generationTime;
 	caught.push_back(bee);
 	m_score++;	
 }
@@ -40,12 +45,6 @@ void GameWorld::addCatch(BeeStruct bee)
 void GameWorld::addObject()
 {
 	//Vehicle(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
-	int beeSize = 20;
-	int minSpeed = 40;
-	int maxSpeed = 50;
-	int minForce = 45;
-	int maxForce = 55;
-	int maxTurnRate = 150;
 	BeeGenerator m_beeGenerator;
 	for (int i = 0; i < 20; i++)
 	{
@@ -72,7 +71,9 @@ void GameWorld::addObject()
 		addBee(550, i * 30);
 	}
 
-
+	int maxSpeed = 50;
+	int maxForce = 55;
+	int maxTurnRate = 150;
 	m_beekeeper = std::make_shared<Beekeeper>(300, 300, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
 	gameObjects.push_back(m_beekeeper);
 }
@@ -87,6 +88,7 @@ void GameWorld::update(double deltaTime)
 	}
 	else
 	{
+		m_generationTime += deltaTime;
 		for (const auto &value : gameObjects)
 		{
 			value->update(deltaTime);

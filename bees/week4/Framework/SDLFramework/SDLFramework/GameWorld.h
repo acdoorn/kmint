@@ -20,6 +20,7 @@ private:
 	int m_score;
 	int m_generation;
 	void nextGeneration();
+	double m_generationTime;
 public:
 	GameWorld();
 	void addCatch(BeeStruct);
