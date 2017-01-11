@@ -31,7 +31,7 @@ public:
 	void draw();
 	SDL_Texture* getBeeTexture();
 	void catchBees();
-	bool beeToClose(const std::shared_ptr<MovingEntity>&);
+	bool beeTooClose(const std::shared_ptr<MovingEntity>&);
 	int getScore();
 	void catchBee(std::shared_ptr<MovingEntity>);
 	std::shared_ptr<MovingEntity> getBeekeeper();

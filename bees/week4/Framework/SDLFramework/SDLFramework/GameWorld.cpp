@@ -120,16 +120,16 @@ void GameWorld::catchBees()
 {
 	
 	auto q = std::remove_if(bees.begin(), bees.end(),
-		[&](std::shared_ptr<MovingEntity> const& bee) { return beeToClose(bee); });
+		[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
 	bees.erase(q, bees.end());
 
 	auto deleteGameObjects = std::remove_if(gameObjects.begin(), gameObjects.end(),
-		[&](std::shared_ptr<MovingEntity> const& bee) { return beeToClose(bee); });
+		[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
 	gameObjects.erase(deleteGameObjects, gameObjects.end());
 	
 }
 
-bool GameWorld::beeToClose( const std::shared_ptr<MovingEntity> & bee)
+bool GameWorld::beeTooClose( const std::shared_ptr<MovingEntity> & bee)
 {
 	std::shared_ptr<Beekeeper> keeper = std::static_pointer_cast<Beekeeper>(m_beekeeper);
 	int distance = bee->getConstPosition().distanceTo(m_beekeeper->getPosition());
