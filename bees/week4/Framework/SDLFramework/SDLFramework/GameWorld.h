@@ -24,6 +24,8 @@ private:
 	double m_generationTime;
 	Graph* graph;
 public:
+	void addBee(int x, int y, BeeStruct data);
+	void addBee(int x, int y,  std::shared_ptr<MovingEntity> bee);
 	GameWorld();
 	void addCatch(BeeStruct);
 	void addObject();
