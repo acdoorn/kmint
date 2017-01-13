@@ -22,7 +22,7 @@ public:
 	static const int maxTurnRate = 150;
 
 
-	std::vector<std::shared_ptr<MovingEntity>> getNextGeneration(std::vector<BeeStruct>,GameWorld * world);
+	void getNextGeneration(std::vector<BeeStruct>,GameWorld * world);
 	std::shared_ptr<Bee> generateBee(BeeStruct beeOne, BeeStruct beeTwo, GameWorld * world);
 	std::shared_ptr<Bee> generateBee(int xPos, int yPos, GameWorld* world);
 };

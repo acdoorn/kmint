@@ -40,6 +40,10 @@ Vertex* Beekeeper::calcNextVertex() {
 	destination = destination / totalBees;
 	closestDistance = 900;
 
+	if (closestBee == nullptr)
+	{
+		return getWorld()->getGraph()->GetRandomVertixNot(currentVertex);
+	}
 
 	//verwisselen met destination om de gemiddelde positie van de bijen te gebruiken.
 	for (auto* value : getWorld()->getGraph()->vertices)

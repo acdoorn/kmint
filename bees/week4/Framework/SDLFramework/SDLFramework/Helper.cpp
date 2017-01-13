@@ -27,3 +27,8 @@ double Helper::getRandomDouble(double min, double max)
 	static Dist uid{};
 	return uid(randomEngine, Dist::param_type{ min,max });
 }
+
+std::default_random_engine Helper::getRandomEngine()
+{
+	return randomEngine;
+}

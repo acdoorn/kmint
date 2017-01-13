@@ -133,6 +133,11 @@ int main(int args[])
 		
 	}
 	}
+	catch (const std::exception &exc)
+	{
+		// catch anything thrown within try block that derives from std::exception
+		std::cout << exc.what();
+	}
 	catch (...) {
 		std::cout << "Exception occurred";
 	}
