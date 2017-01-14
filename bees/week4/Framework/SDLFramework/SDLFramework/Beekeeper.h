@@ -20,6 +20,7 @@ public:
 	Vertex* getNextVertex();
 	void checkVertex();
 	Vertex* calcNextVertex();
+	Vertex* getCurrentVertex();
 	virtual void update(double deltaTime) override;
 	double getCatchDistance();
 	void draw();

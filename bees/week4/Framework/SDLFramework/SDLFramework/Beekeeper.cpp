@@ -75,6 +75,11 @@ double Beekeeper::getCatchDistance()
 	return m_catchDistance;
 }
 
+Vertex* Beekeeper::getCurrentVertex()
+{
+	return currentVertex;
+}
+
 void Beekeeper::draw()
 {
 	if (m_texture)
