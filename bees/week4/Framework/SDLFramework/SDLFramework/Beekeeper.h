@@ -17,6 +17,9 @@ private:
 	bool catching = true;
 	int maxAmountBees = 10;
 	int amountOfBees = 0;
+	int returnToBaseChance = 33;
+	int panicChance = 33;
+	int searchPillChance = 33;
 public:
 	Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
 	std::shared_ptr<StateMachine<Beekeeper>> getStateMachine();

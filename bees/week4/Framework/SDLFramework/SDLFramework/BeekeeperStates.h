@@ -2,9 +2,6 @@
 #include "State.h"
 
 class Beekeeper;
-int returnToBaseChance = 33;
-int panicChance = 33;
-int searchPillChance = 33;
 
 class BeekeeperWanderState : public State<Beekeeper>
 {

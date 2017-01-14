@@ -5,7 +5,7 @@
 Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world) :
 	Vehicle(x, y, width, height, mass, maxSpeed, maxForce, maxTurnRate, world), m_catchDistance(80)
 {
-	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 1);
+	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 63);
 	m_position.setX(currentVertex->x);
 	m_position.setY(currentVertex->y);
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
