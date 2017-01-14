@@ -17,6 +17,7 @@ public:
 	void update(double deltaTime);
 	void setCurrentState(std::shared_ptr<State<entity_type>> s) { m_currentState = s; }
 	void setPreviousState(std::shared_ptr<State<entity_type>> s) { m_previousState = s; }
+	std::shared_ptr<State<entity_type>> getPreviousState() { return m_previousState; }
 };
 
 

@@ -54,7 +54,6 @@ GameWorld::GameWorld()
 	m_score = 0;
 	m_generation = 1;
 	m_generationTime = 0;
-	bee_texture = FWApplication::GetInstance()->LoadTexture("../Resources/bee.png");
 }
 
 void GameWorld::addCatch(BeeStruct bee)

@@ -19,18 +19,18 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	if (beekeeper->nrCaughtBees() == beekeeper->getMaxAmountBees()) {
 		//int random = rand() % 99 + 1; //																random int in range 1 to 99;
 
-		//if (random <= returnToBaseChance) //																BeekeeperReturnToBaseState
+		//if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
 		//{
 		//	beekeeper->setCatching(false);
 		//	std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
 		//	beekeeper->getStateMachine()->changeState(nextState);
 		//}
-		//else if (random > returnToBaseChance && random <= (searchPillChance+returnToBaseChance)) { //		BeekeeperSearchPillState
+		//else if (random > beekeeper->getReturnToBaseChance() && random <= (beekeeper->getSearchPillChance()+ beekeeper->getReturnToBaseChance())) { //		BeekeeperSearchPillState
 		//	beekeeper->setCatching(false);
 		//	std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
 		//	beekeeper->getStateMachine()->changeState(nextState);
 		//}
-		//else if (random > (returnToBaseChance + searchPillChance)) //										BeekeeperPanicState
+		//else if (random > (beekeeper->getReturnToBaseChance() + beekeeper->getSearchPillChance())) //										BeekeeperPanicState
 		//{
 		//	beekeeper->setCatching(false);
 		//	std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
@@ -44,6 +44,9 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	else {
 		if (!beekeeper->isCatching())
 			beekeeper->setCatching(true);
+	}
+	if (beekeeper->nrCaughtBees() > beekeeper->getMaxAmountBees()) {
+		beekeeper->removeBee();
 	}
 	beekeeper->checkVertex();
 	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(beekeeper->getNextVertex()->x, beekeeper->getNextVertex()->y));
@@ -77,10 +80,31 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 		beekeeper->getWorld()->upScore(beekeeper->nrCaughtBees());
 		beekeeper->resetAmountOfBees();
 		if (temp < beekeeper->getWorld()->getScore()) {
+			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperWanderState>()) {// als returntobase direct door wanderstate aangeroepen wordt.
+				if (beekeeper->lowerPanicChance()) {
+					beekeeper->increaseReturnToBaseChance();
+				}
+				if (beekeeper->lowerSearchPillChance()) {
+					beekeeper->increaseReturnToBaseChance();
+				}
+			}
+			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperPanicState>()) {// als de beekeeper in paniek heeft rondgelopen in de vorige state
+				if (beekeeper->lowerReturnToBaseChance()) {
+					beekeeper->increasePanicChance();
+				}
+				if (beekeeper->lowerSearchPillChance()) {
+					beekeeper->increasePanicChance();
+				}
+			}
+			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperUpgradedState>()) {// als de beekeeper geupgrade is door de pill
+				if (beekeeper->lowerReturnToBaseChance()) {
+					beekeeper->increaseSearchPillChance();
+			}
+				if (beekeeper->lowerPanicChance()) {
+					beekeeper->increaseSearchPillChance();
+				}
+			}
 			//state omhoog
-		}
-		else {
-			//state omlaag
 		}
 		//up effectivity
 		std::shared_ptr<BeekeeperWanderState> nextState = std::make_shared<BeekeeperWanderState>();

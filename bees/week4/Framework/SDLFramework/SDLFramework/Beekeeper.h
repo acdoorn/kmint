@@ -38,5 +38,14 @@ public:
 	void addBee();
 	void removeBee();
 	void resetAmountOfBees();
+	bool lowerReturnToBaseChance() {if (returnToBaseChance != 0) {	returnToBaseChance = returnToBaseChance - 3;	return true;}	return false;};
+	bool lowerPanicChance() {		if (panicChance != 0) {	panicChance = panicChance - 3;	return true;}	return false;};
+	bool lowerSearchPillChance() {	if (searchPillChance != 0) {searchPillChance = searchPillChance - 3; return true;}	return false;};
+	void increaseReturnToBaseChance() { returnToBaseChance = returnToBaseChance + 3;};
+	void increasePanicChance() {		panicChance = panicChance + 3;};
+	void increaseSearchPillChance() {	searchPillChance = searchPillChance + 3;};
+	int getReturnToBaseChance() { return returnToBaseChance; };
+	int getPanicChance() { return panicChance; };
+	int getSearchPillChance() { return searchPillChance; };
 };
 

@@ -8,7 +8,7 @@ Vehicle::Vehicle(double x, double y, int width, int height, double mass, double 
 {	
 	m_steering = std::make_shared<SteeringBehaviors>(this);
 	m_world = world;
-	m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/arrow.png");
+	//m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/arrow.png");
 }
 
 

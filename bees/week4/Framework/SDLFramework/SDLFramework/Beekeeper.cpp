@@ -108,6 +108,9 @@ void Beekeeper::draw()
 
 		FWApplication::GetInstance()->DrawText("Distance : " + std::to_string(m_catchDistance), 100, 5);
 		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 17);
+		FWApplication::GetInstance()->DrawText("RTB chance : " + std::to_string(getReturnToBaseChance()), 100, 41);
+		FWApplication::GetInstance()->DrawText("Panic chance : " + std::to_string(getPanicChance()), 100, 53);
+		FWApplication::GetInstance()->DrawText("Pill chance : " + std::to_string(getSearchPillChance()), 100, 65);
 
 
 
