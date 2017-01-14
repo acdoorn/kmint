@@ -36,6 +36,11 @@ void FleeState::exit(Bee * bee)
 {
 }
 
+std::string FleeState::name()
+{
+	return "";
+}
+
 void WanderFlockState::enter(Bee * bee)
 {
 }
@@ -72,4 +77,9 @@ void WanderFlockState::execute(Bee * bee, double deltaTime)
 
 void WanderFlockState::exit(Bee * bee)
 {
+}
+
+std::string WanderFlockState::name()
+{
+	return "";
 }

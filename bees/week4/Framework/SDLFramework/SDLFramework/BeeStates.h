@@ -13,6 +13,7 @@ public:
 	virtual void execute(Bee*, double deltaTime) override;
 
 	virtual void exit(Bee*) override;
+	virtual std::string name() override;
 
 };
 
@@ -28,5 +29,6 @@ public:
 	virtual void execute(Bee*, double deltaTime) override;
 
 	virtual void exit(Bee*) override;
+	virtual std::string name() override;
 
 };

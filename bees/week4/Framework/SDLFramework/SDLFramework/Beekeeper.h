@@ -13,6 +13,7 @@ private:
 	SDL_Texture* m_areaTexture;
 	double m_catchDistance;
 	Vertex* currentVertex;
+	Vertex* panicVertex;
 	Vertex* nextVertex;
 	bool catching = true;
 	int maxAmountBees = 10;
@@ -21,6 +22,9 @@ private:
 	int panicChance = 33;
 	int searchPillChance = 33;
 public:
+	void setCurrentVertex(Vertex* v) { currentVertex = v; };
+	void setPanicVertex(Vertex* v) { currentVertex = v; };
+	Vertex* getPanicVertex() {	return panicVertex;	};
 	Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
 	std::shared_ptr<StateMachine<Beekeeper>> getStateMachine();
 	Vertex* getNextVertex();

@@ -6,6 +6,7 @@ Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, dou
 	Vehicle(x, y, width, height, mass, maxSpeed, maxForce, maxTurnRate, world), m_catchDistance(80)
 {
 	currentVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - 63);
+	panicVertex = getWorld()->getGraph()->vertices.at(getWorld()->getGraph()->vertices.size() - (rand() % 70 + 1));
 	m_position.setX(currentVertex->x);
 	m_position.setY(currentVertex->y);
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
@@ -108,9 +109,10 @@ void Beekeeper::draw()
 
 		FWApplication::GetInstance()->DrawText("Distance : " + std::to_string(m_catchDistance), 100, 5);
 		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 17);
-		FWApplication::GetInstance()->DrawText("RTB chance : " + std::to_string(getReturnToBaseChance()), 100, 41);
-		FWApplication::GetInstance()->DrawText("Panic chance : " + std::to_string(getPanicChance()), 100, 53);
-		FWApplication::GetInstance()->DrawText("Pill chance : " + std::to_string(getSearchPillChance()), 100, 65);
+		FWApplication::GetInstance()->DrawText("Amount of bees in bag : " + std::to_string(nrCaughtBees()), 100, 41);
+		FWApplication::GetInstance()->DrawText("RTB chance : " + std::to_string(getReturnToBaseChance()), 100, 53);
+		FWApplication::GetInstance()->DrawText("Panic chance : " + std::to_string(getPanicChance()), 100, 65);
+		FWApplication::GetInstance()->DrawText("Pill chance : " + std::to_string(getSearchPillChance()), 100, 77);
 
 
 

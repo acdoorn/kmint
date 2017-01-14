@@ -1,6 +1,7 @@
 #include "BeekeeperStates.h"
 #include "Beekeeper.h"
 #include "Graph.h"
+#include <time.h>
 //BeekeeperWanderState
 //BeekeeperReturnToBaseState
 //BeekeeperPanicState
@@ -16,7 +17,7 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	//TODO:
 	//Beslissing inbouwen als er 10 bijen gevangen zijn tussen 3 states
 	//effectiviteit aan hand van de score die toegevoegd wordt, als er score wordt toegevoegd voor de state switched gaat kans omhoog met 6%, anderen krijgen -3%, totaal moet 99 blijven
-	if (beekeeper->nrCaughtBees() == beekeeper->getMaxAmountBees()) {
+	if (beekeeper->nrCaughtBees() >= beekeeper->getMaxAmountBees() || beekeeper->getWorld()->getBees().size() == 0) {
 		//int random = rand() % 99 + 1; //																random int in range 1 to 99;
 
 		//if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
@@ -38,21 +39,22 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 		//}
 
 		beekeeper->setCatching(false);
-		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+		std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
 		beekeeper->getStateMachine()->changeState(nextState);
 	}
 	else {
 		if (!beekeeper->isCatching())
 			beekeeper->setCatching(true);
 	}
-	if (beekeeper->nrCaughtBees() > beekeeper->getMaxAmountBees()) {
-		beekeeper->removeBee();
-	}
 	beekeeper->checkVertex();
 	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(beekeeper->getNextVertex()->x, beekeeper->getNextVertex()->y));
 	Vector2D influence = seperation;
 
 	beekeeper->move(influence, deltaTime);
+}
+
+std::string BeekeeperWanderState::name() {
+	return "Wander";
 }
 
 void BeekeeperWanderState::exit(Beekeeper *)
@@ -80,7 +82,7 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 		beekeeper->getWorld()->upScore(beekeeper->nrCaughtBees());
 		beekeeper->resetAmountOfBees();
 		if (temp < beekeeper->getWorld()->getScore()) {
-			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperWanderState>()) {// als returntobase direct door wanderstate aangeroepen wordt.
+			if (beekeeper->getStateMachine()->getPreviousState().get()->name() == "Wander") {// als returntobase direct door wanderstate aangeroepen wordt.
 				if (beekeeper->lowerPanicChance()) {
 					beekeeper->increaseReturnToBaseChance();
 				}
@@ -88,7 +90,7 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 					beekeeper->increaseReturnToBaseChance();
 				}
 			}
-			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperPanicState>()) {// als de beekeeper in paniek heeft rondgelopen in de vorige state
+			if (beekeeper->getStateMachine()->getPreviousState().get()->name() == "Panic") {// als de beekeeper in paniek heeft rondgelopen in de vorige state
 				if (beekeeper->lowerReturnToBaseChance()) {
 					beekeeper->increasePanicChance();
 				}
@@ -96,7 +98,7 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 					beekeeper->increasePanicChance();
 				}
 			}
-			if (beekeeper->getStateMachine()->getPreviousState() == std::make_shared<BeekeeperUpgradedState>()) {// als de beekeeper geupgrade is door de pill
+			if (beekeeper->getStateMachine()->getPreviousState().get()->name() == "Upgraded") {// als de beekeeper geupgrade is door de pill
 				if (beekeeper->lowerReturnToBaseChance()) {
 					beekeeper->increaseSearchPillChance();
 			}
@@ -113,6 +115,10 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 
 }
 
+std::string BeekeeperReturnToBaseState::name() {
+	return "";
+}
+
 void BeekeeperReturnToBaseState::exit(Beekeeper *)
 {
 }
@@ -123,12 +129,39 @@ void BeekeeperPanicState::enter(Beekeeper *)
 
 void BeekeeperPanicState::execute(Beekeeper * beekeeper, double deltaTime)
 {
-	//TODO
-	beekeeper->checkVertex();
-	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(beekeeper->getNextVertex()->x, beekeeper->getNextVertex()->y));
+	if (beekeeper->getPanicVertex() == NULL) {
+		beekeeper->setPanicVertex(beekeeper->getWorld()->getGraph()->GetRandomVertixNot(beekeeper->getCurrentVertex()));
+	}
+	Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), beekeeper->getPanicVertex());
+	if (nextVertex == nullptr) {
+		nextVertex = beekeeper->getCurrentVertex();
+	}
+	double diffX = beekeeper->getPosition().getX() - nextVertex->x;
+	double diffY = beekeeper->getPosition().getY() - nextVertex->y;
+	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
+		if (beekeeper->nrCaughtBees() > 0) {
+			beekeeper->removeBee();
+		}
+		beekeeper->setCurrentVertex(nextVertex);
+	}
+	if (beekeeper->nrCaughtBees() == 0) {
+		beekeeper->setPanicVertex(beekeeper->getCurrentVertex());
+	}
+	if (beekeeper->getCurrentVertex() == beekeeper->getPanicVertex() && beekeeper->nrCaughtBees() == 0) {
+		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+		beekeeper->getStateMachine()->changeState(nextState);
+	}
+	else if (beekeeper->getCurrentVertex() == beekeeper->getPanicVertex()) {
+		beekeeper->setPanicVertex(beekeeper->getWorld()->getGraph()->GetRandomVertixNot(beekeeper->getCurrentVertex()));
+	}
+	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
 	Vector2D influence = seperation;
 
 	beekeeper->move(influence, deltaTime);
+}
+
+std::string BeekeeperPanicState::name() {
+	return "Panic";
 }
 
 void BeekeeperPanicState::exit(Beekeeper *)
@@ -149,6 +182,10 @@ void BeekeeperSearchPillState::execute(Beekeeper * beekeeper, double deltaTime)
 	beekeeper->move(influence, deltaTime);
 }
 
+std::string BeekeeperSearchPillState::name() {
+	return "";
+}
+
 void BeekeeperSearchPillState::exit(Beekeeper *)
 {
 }
@@ -165,6 +202,10 @@ void BeekeeperUpgradedState::execute(Beekeeper * beekeeper, double deltaTime)
 	Vector2D influence = seperation;
 
 	beekeeper->move(influence, deltaTime);
+}
+
+std::string BeekeeperUpgradedState::name() {
+	return "Upgraded";
 }
 
 void BeekeeperUpgradedState::exit(Beekeeper *)
