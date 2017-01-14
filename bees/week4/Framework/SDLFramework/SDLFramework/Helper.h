@@ -10,5 +10,6 @@ public:
 	
 	static int getRandomInt(int min, int max);
 	static double getRandomDouble(double min, double max);
+	static  std::default_random_engine getRandomEngine();
 };
 

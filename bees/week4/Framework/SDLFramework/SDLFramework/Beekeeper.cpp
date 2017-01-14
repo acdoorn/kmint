@@ -26,6 +26,8 @@ Vertex* Beekeeper::calcNextVertex() {
 	std::shared_ptr<MovingEntity> closestBee;
 	Vertex* closestBeeVertex = currentVertex;
 	double closestDistance = 800;
+	int totalBees = getWorld()->getBees().size();
+	Vector2D destination = Vector2D(0,0);
 	for (auto &value : getWorld()->getBees())
 	{
 		if (getPosition().distanceTo(value->getPosition()) < closestDistance)
@@ -33,8 +35,17 @@ Vertex* Beekeeper::calcNextVertex() {
 			closestBee = value;
 			closestDistance = getPosition().distanceTo(value->getPosition());
 		}
+		destination += value->getPosition();
 	}
+	destination = destination / totalBees;
 	closestDistance = 900;
+
+	if (closestBee == nullptr)
+	{
+		return getWorld()->getGraph()->GetRandomVertixNot(currentVertex);
+	}
+
+	//verwisselen met destination om de gemiddelde positie van de bijen te gebruiken.
 	for (auto* value : getWorld()->getGraph()->vertices)
 	{
 		if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
@@ -67,7 +78,7 @@ void Beekeeper::checkVertex() {
 void Beekeeper::update(double deltaTime)
 {
 	m_stateMachine->update(deltaTime);
-	//m_catchDistance += deltaTime * 4;
+	m_catchDistance += deltaTime * 0.4;
 }
 
 double Beekeeper::getCatchDistance()

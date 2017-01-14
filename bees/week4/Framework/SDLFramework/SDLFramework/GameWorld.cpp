@@ -17,12 +17,35 @@ void GameWorld::nextGeneration()
 {
 	BeeGenerator m_beeGenerator;
 	gameObjects = std::vector<std::shared_ptr<MovingEntity>>();
-	 m_beeGenerator.getNextGeneration(caught);
-	addObject();
+	
+	m_beeGenerator.getNextGeneration(caught, this);
+
+	caught = std::vector<BeeStruct>();
+
+	//addObject();
+	
+	int maxSpeed = 50;
+	int maxForce = 55;
+	int maxTurnRate = 150;
+	m_beekeeper = std::make_shared<Beekeeper>(0, 0, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
+	gameObjects.push_back(m_beekeeper);
+
 	m_score = 0;
 	m_generation++;
 	m_generationTime = 0;
 
+}
+
+void GameWorld::addBee(int x, int y, BeeStruct data)
+{
+	
+}
+
+void GameWorld::addBee(int x, int y, std::shared_ptr<MovingEntity> bee)
+{
+	gameObjects.push_back(bee);
+	bees.push_back(bee);
+	bee->setPosition(Vector2D(x, y));
 }
 
 GameWorld::GameWorld()
