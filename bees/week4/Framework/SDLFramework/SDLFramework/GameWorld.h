@@ -39,5 +39,7 @@ public:
 	std::shared_ptr<MovingEntity> getBeekeeper();
 	std::vector<std::shared_ptr<MovingEntity>>getBees();
 	Graph* getGraph();
+	std::vector<BeeStruct> getCaughtBees();
+	void upScore(int amount);
 };
 

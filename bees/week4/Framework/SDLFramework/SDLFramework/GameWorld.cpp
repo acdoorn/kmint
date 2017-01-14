@@ -61,7 +61,8 @@ void GameWorld::addCatch(BeeStruct bee)
 {
 	bee.m_timeAlive = m_generationTime;
 	caught.push_back(bee);
-	m_score++;	
+	std::shared_ptr<Beekeeper> beekeeper = std::static_pointer_cast<Beekeeper>(m_beekeeper);
+	beekeeper->addBee();
 }
 
 
@@ -141,30 +142,31 @@ SDL_Texture * GameWorld::getBeeTexture()
 
 void GameWorld::catchBees()
 {
-	
-	auto q = std::remove_if(bees.begin(), bees.end(),
-		[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
-	bees.erase(q, bees.end());
+	std::shared_ptr<Beekeeper> beekeeper = std::static_pointer_cast<Beekeeper>(m_beekeeper);
+	if (beekeeper->isCatching()) {
+		auto q = std::remove_if(bees.begin(), bees.end(),
+			[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
+		bees.erase(q, bees.end());
 
-	auto deleteGameObjects = std::remove_if(gameObjects.begin(), gameObjects.end(),
-		[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
-	gameObjects.erase(deleteGameObjects, gameObjects.end());
-	
-}
-
-bool GameWorld::beeTooClose( const std::shared_ptr<MovingEntity> & bee)
-{
-	std::shared_ptr<Beekeeper> keeper = std::static_pointer_cast<Beekeeper>(m_beekeeper);
-	int distance = bee->getConstPosition().distanceTo(m_beekeeper->getPosition());
-	if (bee->getID() != m_beekeeper->getID())
-	{
-		if (distance < keeper->getCatchDistance())
-		{
-			return true;
-		}
+		auto deleteGameObjects = std::remove_if(gameObjects.begin(), gameObjects.end(),
+			[&](std::shared_ptr<MovingEntity> const& bee) { return beeTooClose(bee); });
+		gameObjects.erase(deleteGameObjects, gameObjects.end());
 
 	}
 	
+}
+
+bool GameWorld::beeTooClose( const std::shared_ptr<MovingEntity>& bee)
+{
+	std::shared_ptr<Beekeeper> beekeeper = std::static_pointer_cast<Beekeeper>(m_beekeeper);
+	int distance = bee->getConstPosition().distanceTo(m_beekeeper->getPosition());
+	if (bee->getID() != m_beekeeper->getID() && beekeeper->isCatching())
+	{
+		if (distance < beekeeper->getCatchDistance())
+		{
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -189,4 +191,12 @@ std::vector<std::shared_ptr<MovingEntity>> GameWorld::getBees()
 
 Graph* GameWorld::getGraph() {
 	return graph;
+}
+
+std::vector<BeeStruct> GameWorld::getCaughtBees() {
+	return caught;
+}
+
+void GameWorld::upScore(int amount) {
+	m_score = m_score + amount;
 }

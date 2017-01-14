@@ -114,3 +114,30 @@ void Beekeeper::draw()
 	}
 }
 
+bool Beekeeper::isCatching() {
+	return catching;
+}
+
+void Beekeeper::setCatching(bool c) {
+	catching = c;
+}
+
+int Beekeeper::getMaxAmountBees() {
+	return maxAmountBees;
+}
+
+void Beekeeper::addBee() {
+	amountOfBees++;
+}
+
+int Beekeeper::nrCaughtBees() {
+	return amountOfBees;
+}
+
+void Beekeeper::removeBee() {
+	amountOfBees--;
+}
+
+void Beekeeper::resetAmountOfBees() {
+	amountOfBees = 0;
+}
