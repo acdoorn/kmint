@@ -18,32 +18,32 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	//Beslissing inbouwen als er 10 bijen gevangen zijn tussen 3 states
 	//effectiviteit aan hand van de score die toegevoegd wordt, als er score wordt toegevoegd voor de state switched gaat kans omhoog met 6%, anderen krijgen -3%, totaal moet 99 blijven
 	if (beekeeper->nrCaughtBees() >= beekeeper->getMaxAmountBees() || beekeeper->getWorld()->getBees().size() == 0) {
-		int random = rand() % 99 + 1; //																random int in range 1 to 99;
+	//	int random = rand() % 99 + 1; //																random int in range 1 to 99;
 
-		if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
-		{
-			beekeeper->setCatching(false);
-			beekeeper->setCurrentState("RTB");
-			std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
-			beekeeper->getStateMachine()->changeState(nextState);
-		}
-		else if (random > beekeeper->getReturnToBaseChance() && random <= (beekeeper->getSearchPillChance()+ beekeeper->getReturnToBaseChance())) { //		BeekeeperSearchPillState
-			beekeeper->setCatching(false);
-			beekeeper->setCurrentState("Search pill");
-			std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
-			beekeeper->getStateMachine()->changeState(nextState);
-		}
-		else if (random > (beekeeper->getReturnToBaseChance() + beekeeper->getSearchPillChance())) //										BeekeeperPanicState
-		{
-			beekeeper->setCatching(false);
-			beekeeper->setCurrentState("Panic");
-			std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
-			beekeeper->getStateMachine()->changeState(nextState);
-		}
-/*
+	//	if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
+	//	{
+	//		beekeeper->setCatching(false);
+	//		beekeeper->setCurrentState("RTB");
+	//		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+	//		beekeeper->getStateMachine()->changeState(nextState);
+	//	}
+	//	else if (random > beekeeper->getReturnToBaseChance() && random <= (beekeeper->getSearchPillChance()+ beekeeper->getReturnToBaseChance())) { //		BeekeeperSearchPillState
+	//		beekeeper->setCatching(false);
+	//		beekeeper->setCurrentState("Search pill");
+	//		std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
+	//		beekeeper->getStateMachine()->changeState(nextState);
+	//	}
+	//	else if (random > (beekeeper->getReturnToBaseChance() + beekeeper->getSearchPillChance())) //										BeekeeperPanicState
+	//	{
+	//		beekeeper->setCatching(false);
+	//		beekeeper->setCurrentState("Panic");
+	//		std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
+	//		beekeeper->getStateMachine()->changeState(nextState);
+	//	}
+
 		beekeeper->setCatching(false);
-		std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
-		beekeeper->getStateMachine()->changeState(nextState);*/
+		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+		beekeeper->getStateMachine()->changeState(nextState);
 	}
 	else {
 		if (!beekeeper->isCatching())
@@ -72,22 +72,8 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 {
 	Graph* g = beekeeper->getWorld()->getGraph();
 	Vertex* base = g->vertices.at(g->vertices.size() - 1);
-	Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), base);
-	if (nextVertex == nullptr) {
-		nextVertex = beekeeper->getCurrentVertex();
-	}
-	double diffX = beekeeper->getPosition().getX() - nextVertex->x;
-	double diffY = beekeeper->getPosition().getY() - nextVertex->y;
-	if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
-		beekeeper->setCurrentVertex(nextVertex);
-	}
-	if (base != beekeeper->getCurrentVertex()) {
-		Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
-		Vector2D influence = seperation;
 
-		beekeeper->move(influence, deltaTime);
-	}
-	else {
+	if (base == beekeeper->getCurrentVertex()) {
 		int temp = beekeeper->getWorld()->getScore();
 		beekeeper->getWorld()->upScore(beekeeper->nrCaughtBees());
 		beekeeper->resetAmountOfBees();
@@ -111,18 +97,30 @@ void BeekeeperReturnToBaseState::execute(Beekeeper * beekeeper, double deltaTime
 			if (beekeeper->getStateMachine()->getPreviousState().get()->name() == "Upgraded") {// als de beekeeper geupgrade is door de pill
 				if (beekeeper->lowerReturnToBaseChance()) {
 					beekeeper->increaseSearchPillChance();
-			}
+				}
 				if (beekeeper->lowerPanicChance()) {
 					beekeeper->increaseSearchPillChance();
 				}
 			}
 			//state omhoog
 		}
-		//up effectivity
 		beekeeper->setCurrentState("Chase bees");
 		std::shared_ptr<BeekeeperWanderState> nextState = std::make_shared<BeekeeperWanderState>();
 		beekeeper->getStateMachine()->changeState(nextState);
 	}
+	else {
+		Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), base);
+		double diffX = beekeeper->getPosition().getX() - nextVertex->x;
+		double diffY = beekeeper->getPosition().getY() - nextVertex->y;
+		if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
+			beekeeper->setCurrentVertex(nextVertex);
+		}
+		Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
+		Vector2D influence = seperation;
+
+		beekeeper->move(influence, deltaTime);
+	}
+
 
 }
 
@@ -143,18 +141,6 @@ void BeekeeperPanicState::execute(Beekeeper * beekeeper, double deltaTime)
 	if (beekeeper->getPanicVertex() == NULL) {
 		beekeeper->setPanicVertex(beekeeper->getWorld()->getGraph()->GetRandomVertixNot(beekeeper->getCurrentVertex()));
 	}
-	Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), beekeeper->getPanicVertex());
-	if (nextVertex == nullptr) {
-		nextVertex = beekeeper->getCurrentVertex();
-	}
-	double diffX = beekeeper->getPosition().getX() - nextVertex->x;
-	double diffY = beekeeper->getPosition().getY() - nextVertex->y;
-	if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
-		if (beekeeper->nrCaughtBees() > 0) {
-			beekeeper->removeBee();
-		}
-		beekeeper->setCurrentVertex(nextVertex);
-	}
 	if (beekeeper->nrCaughtBees() == 0) {
 		beekeeper->setPanicVertex(beekeeper->getCurrentVertex());
 	}
@@ -166,10 +152,21 @@ void BeekeeperPanicState::execute(Beekeeper * beekeeper, double deltaTime)
 	else if (beekeeper->getCurrentVertex() == beekeeper->getPanicVertex()) {
 		beekeeper->setPanicVertex(beekeeper->getWorld()->getGraph()->GetRandomVertixNot(beekeeper->getCurrentVertex()));
 	}
-	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
-	Vector2D influence = seperation;
+	else {
+		Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), beekeeper->getPanicVertex());
+		double diffX = beekeeper->getPosition().getX() - nextVertex->x;
+		double diffY = beekeeper->getPosition().getY() - nextVertex->y;
+		if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
+			if (beekeeper->nrCaughtBees() > 0) {
+				beekeeper->removeBee();
+			}
+		}
+		beekeeper->setCurrentVertex(nextVertex);
+		Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
+		Vector2D influence = seperation;
 
-	beekeeper->move(influence, deltaTime);
+		beekeeper->move(influence, deltaTime);
+	}
 }
 
 std::string BeekeeperPanicState::name() {
@@ -196,19 +193,19 @@ void BeekeeperSearchPillState::execute(Beekeeper * beekeeper, double deltaTime)
 		std::shared_ptr<BeekeeperUpgradedState> nextState = std::make_shared<BeekeeperUpgradedState>();
 		beekeeper->getStateMachine()->changeState(nextState);
 	}
-	Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), beekeeper->getWorld()->getPill()->getLocation());
-	if (nextVertex == nullptr) {
-		nextVertex = beekeeper->getCurrentVertex();
-	}
-	double diffX = beekeeper->getPosition().getX() - nextVertex->x;
-	double diffY = beekeeper->getPosition().getY() - nextVertex->y;
-	if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
-		beekeeper->setCurrentVertex(nextVertex);
-	}
-	Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
-	Vector2D influence = seperation;
+	else {
+		Vertex* nextVertex = beekeeper->getWorld()->getGraph()->GetNextVertex(beekeeper->getCurrentVertex(), beekeeper->getWorld()->getPill()->getLocation());
+		double diffX = beekeeper->getPosition().getX() - nextVertex->x;
+		double diffY = beekeeper->getPosition().getY() - nextVertex->y;
+		if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
+			beekeeper->setCurrentVertex(nextVertex);
+		}
+		Vector2D seperation = beekeeper->getSteeringBehaviour()->seek(Vector2D(nextVertex->x, nextVertex->y));
+		Vector2D influence = seperation;
 
-	beekeeper->move(influence, deltaTime);
+		beekeeper->move(influence, deltaTime);
+
+	}
 }
 
 std::string BeekeeperSearchPillState::name() {
