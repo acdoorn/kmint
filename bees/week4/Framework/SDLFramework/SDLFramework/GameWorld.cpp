@@ -166,7 +166,7 @@ bool GameWorld::beeTooClose( const std::shared_ptr<MovingEntity>& bee)
 	int distance = bee->getConstPosition().distanceTo(m_beekeeper->getPosition());
 	if (bee->getID() != m_beekeeper->getID() && beekeeper->isCatching())
 	{
-		if (distance < beekeeper->getCatchDistance())
+		if (distance < beekeeper->getCatchDistance() && beekeeper->getMaxAmountBees() > beekeeper->nrCaughtBees())
 		{
 			return true;
 		}
