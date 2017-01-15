@@ -24,12 +24,16 @@ std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
 	return m_stateMachine;
 }
 
-Vertex* Beekeeper::calcNextVertex() {
+Vertex* Beekeeper::getNextVertex() {
+	return nextVertex;
+}
+
+Vertex* Beekeeper::getBeesLocation() {
+	Vertex* targetVertex = getCurrentVertex();
 	std::shared_ptr<MovingEntity> closestBee;
-	Vertex* closestBeeVertex = currentVertex;
 	double closestDistance = 800;
 	int totalBees = getWorld()->getBees().size();
-	Vector2D destination = Vector2D(0,0);
+	Vector2D destination = Vector2D(0, 0);
 	for (auto &value : getWorld()->getBees())
 	{
 		if (getPosition().distanceTo(value->getPosition()) < closestDistance)
@@ -44,7 +48,7 @@ Vertex* Beekeeper::calcNextVertex() {
 
 	if (closestBee == nullptr)
 	{
-		return getWorld()->getGraph()->GetRandomVertixNot(currentVertex);
+		targetVertex = getWorld()->getGraph()->GetRandomVertixNot(getCurrentVertex());
 	}
 
 	//verwisselen met destination om de gemiddelde positie van de bijen te gebruiken.
@@ -52,29 +56,21 @@ Vertex* Beekeeper::calcNextVertex() {
 	{
 		if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
 		{
-			closestBeeVertex = value;
+			targetVertex = value;
 			closestDistance = closestBee->getPosition().distanceTo(Vector2D(value->x, value->y));
 		}
 	}
+	return targetVertex;
 
-	return getWorld()->getGraph()->GetNextVertex(currentVertex, closestBeeVertex);
 }
 
-Vertex* Beekeeper::getNextVertex() {
-	return nextVertex;
-}
-
-void Beekeeper::checkVertex() {
-	nextVertex = calcNextVertex();
-	if (nextVertex == nullptr) {
-		nextVertex = currentVertex;
-	}
+void Beekeeper::checkVertex(Vertex* target) {
+	nextVertex = getWorld()->getGraph()->GetNextVertex(currentVertex, target);
 	double diffX = getPosition().getX() - nextVertex->x;
 	double diffY = getPosition().getY() - nextVertex->y;
-	if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
+	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
 		currentVertex = nextVertex;
 	}
-
 }
 
 void Beekeeper::update(double deltaTime)

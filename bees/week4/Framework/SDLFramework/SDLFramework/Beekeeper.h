@@ -26,14 +26,14 @@ private:
 	std::string statestring;
 public:
 	void setCurrentVertex(Vertex* v) { currentVertex = v; };
-	void setPanicVertex(Vertex* v) { currentVertex = v; };
+	void setPanicVertex(Vertex* v) { panicVertex = v; };
 	Vertex* getPanicVertex() {	return panicVertex;	};
 	Beekeeper(double x, double y, int width, int height, double mass, double maxSpeed, double maxForce, double maxTurnRate, GameWorld* world);
 	std::shared_ptr<StateMachine<Beekeeper>> getStateMachine();
 	Vertex* getNextVertex();
-	void checkVertex();
-	Vertex* calcNextVertex();
+	void checkVertex(Vertex* target);
 	Vertex* getCurrentVertex();
+	Vertex* getBeesLocation();
 	virtual void update(double deltaTime) override;
 	double getCatchDistance();
 	void draw();

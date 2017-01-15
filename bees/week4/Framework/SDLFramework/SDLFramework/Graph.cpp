@@ -381,7 +381,7 @@ Vertex* Graph::GetRandomVertixNot(std::vector<Vertex*> v) {
 }
 
 Vertex* Graph::GetNextVertex(Vertex* start, Vertex* end) {
-	Vertex* out = nullptr;
+	Vertex* out = start;
 	if (start != end){
 
 		locations = SearchAStar(start, end);
