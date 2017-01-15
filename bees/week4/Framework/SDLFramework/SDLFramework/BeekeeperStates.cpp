@@ -18,32 +18,32 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	//Beslissing inbouwen als er 10 bijen gevangen zijn tussen 3 states
 	//effectiviteit aan hand van de score die toegevoegd wordt, als er score wordt toegevoegd voor de state switched gaat kans omhoog met 6%, anderen krijgen -3%, totaal moet 99 blijven
 	if (beekeeper->nrCaughtBees() >= beekeeper->getMaxAmountBees() || beekeeper->getWorld()->getBees().size() == 0) {
-	//	int random = rand() % 99 + 1; //																random int in range 1 to 99;
+		int random = rand() % 99 + 1; //																random int in range 1 to 99;
 
-	//	if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
-	//	{
-	//		beekeeper->setCatching(false);
-	//		beekeeper->setCurrentState("RTB");
-	//		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
-	//		beekeeper->getStateMachine()->changeState(nextState);
-	//	}
-	//	else if (random > beekeeper->getReturnToBaseChance() && random <= (beekeeper->getSearchPillChance()+ beekeeper->getReturnToBaseChance())) { //		BeekeeperSearchPillState
-	//		beekeeper->setCatching(false);
-	//		beekeeper->setCurrentState("Search pill");
-	//		std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
-	//		beekeeper->getStateMachine()->changeState(nextState);
-	//	}
-	//	else if (random > (beekeeper->getReturnToBaseChance() + beekeeper->getSearchPillChance())) //										BeekeeperPanicState
-	//	{
-	//		beekeeper->setCatching(false);
-	//		beekeeper->setCurrentState("Panic");
-	//		std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
-	//		beekeeper->getStateMachine()->changeState(nextState);
-	//	}
+		if (random <= beekeeper->getReturnToBaseChance()) //																BeekeeperReturnToBaseState
+		{
+			beekeeper->setCatching(false);
+			beekeeper->setCurrentState("RTB");
+			std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+			beekeeper->getStateMachine()->changeState(nextState);
+		}
+		else if (random > beekeeper->getReturnToBaseChance() && random <= (beekeeper->getSearchPillChance()+ beekeeper->getReturnToBaseChance())) { //		BeekeeperSearchPillState
+			beekeeper->setCatching(false);
+			beekeeper->setCurrentState("Search pill");
+			std::shared_ptr<BeekeeperSearchPillState> nextState = std::make_shared<BeekeeperSearchPillState>();
+			beekeeper->getStateMachine()->changeState(nextState);
+		}
+		else if (random > (beekeeper->getReturnToBaseChance() + beekeeper->getSearchPillChance())) //										BeekeeperPanicState
+		{
+			beekeeper->setCatching(false);
+			beekeeper->setCurrentState("Panic");
+			std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
+			beekeeper->getStateMachine()->changeState(nextState);
+		}
 
-		beekeeper->setCatching(false);
+	/*	beekeeper->setCatching(false);
 		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
-		beekeeper->getStateMachine()->changeState(nextState);
+		beekeeper->getStateMachine()->changeState(nextState);*/
 	}
 	else {
 		if (!beekeeper->isCatching())
