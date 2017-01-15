@@ -107,7 +107,7 @@ void GameWorld::addObject()
 
 void GameWorld::update(double deltaTime)
 {
-	if (m_score == 100)
+	if (getBees().size() == 0 && std::static_pointer_cast<Beekeeper>(m_beekeeper)->getCurrentVertex() == graph->vertices.at(graph->vertices.size() - 1))
 	{		
 		nextGeneration();
 	}

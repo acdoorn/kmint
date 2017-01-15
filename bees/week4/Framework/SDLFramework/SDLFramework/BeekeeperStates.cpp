@@ -17,7 +17,7 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 	//TODO:
 	//Beslissing inbouwen als er 10 bijen gevangen zijn tussen 3 states
 	//effectiviteit aan hand van de score die toegevoegd wordt, als er score wordt toegevoegd voor de state switched gaat kans omhoog met 6%, anderen krijgen -3%, totaal moet 99 blijven
-	if (beekeeper->nrCaughtBees() >= beekeeper->getMaxAmountBees() || beekeeper->getWorld()->getBees().size() == 0) {
+	if (beekeeper->nrCaughtBees() >= beekeeper->getMaxAmountBees()) {
 		int random = rand() % 99 + 1; //																													random int in range 1 to 99;
 
 		if (random <= beekeeper->getReturnToBaseChance()) //																								BeekeeperReturnToBaseState
@@ -45,6 +45,12 @@ void BeekeeperWanderState::execute(Beekeeper * beekeeper, double deltaTime)
 		beekeeper->setCurrentState("Panic");
 		std::shared_ptr<BeekeeperPanicState> nextState = std::make_shared<BeekeeperPanicState>();
 		beekeeper->getStateMachine()->changeState(nextState);*/
+	}
+	else if (beekeeper->getWorld()->getBees().size() == 0) {
+		beekeeper->setCatching(false);
+		beekeeper->setCurrentState("RTB");
+		std::shared_ptr<BeekeeperReturnToBaseState> nextState = std::make_shared<BeekeeperReturnToBaseState>();
+		beekeeper->getStateMachine()->changeState(nextState);
 	}
 	else {
 		if (!beekeeper->isCatching())

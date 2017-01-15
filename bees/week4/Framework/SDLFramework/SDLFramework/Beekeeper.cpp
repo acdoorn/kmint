@@ -30,34 +30,37 @@ Vertex* Beekeeper::getNextVertex() {
 
 Vertex* Beekeeper::getBeesLocation() {
 	Vertex* targetVertex = getCurrentVertex();
-	std::shared_ptr<MovingEntity> closestBee;
-	double closestDistance = 800;
-	int totalBees = getWorld()->getBees().size();
-	Vector2D destination = Vector2D(0, 0);
-	for (auto &value : getWorld()->getBees())
-	{
-		if (getPosition().distanceTo(value->getPosition()) < closestDistance)
+
+	if (getWorld()->getBees().size() > 0) {
+		std::shared_ptr<MovingEntity> closestBee;
+		double closestDistance = 800;
+		int totalBees = getWorld()->getBees().size();
+		Vector2D destination = Vector2D(0, 0);
+		for (auto &value : getWorld()->getBees())
 		{
-			closestBee = value;
-			closestDistance = getPosition().distanceTo(value->getPosition());
+			if (getPosition().distanceTo(value->getPosition()) < closestDistance)
+			{
+				closestBee = value;
+				closestDistance = getPosition().distanceTo(value->getPosition());
+			}
+			destination += value->getPosition();
 		}
-		destination += value->getPosition();
-	}
-	destination = destination / totalBees;
-	closestDistance = 900;
+		destination = destination / totalBees;
+		closestDistance = 900;
 
-	if (closestBee == nullptr)
-	{
-		targetVertex = getWorld()->getGraph()->GetRandomVertixNot(getCurrentVertex());
-	}
-
-	//verwisselen met destination om de gemiddelde positie van de bijen te gebruiken.
-	for (auto* value : getWorld()->getGraph()->vertices)
-	{
-		if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
+		if (closestBee == nullptr)
 		{
-			targetVertex = value;
-			closestDistance = closestBee->getPosition().distanceTo(Vector2D(value->x, value->y));
+			targetVertex = getWorld()->getGraph()->GetRandomVertixNot(getCurrentVertex());
+		}
+
+		//verwisselen met destination om de gemiddelde positie van de bijen te gebruiken.
+		for (auto* value : getWorld()->getGraph()->vertices)
+		{
+			if (closestBee->getPosition().distanceTo(Vector2D(value->x, value->y)) < closestDistance)
+			{
+				targetVertex = value;
+				closestDistance = closestBee->getPosition().distanceTo(Vector2D(value->x, value->y));
+			}
 		}
 	}
 	return targetVertex;
