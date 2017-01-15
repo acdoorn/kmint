@@ -482,7 +482,7 @@ std::vector<std::pair<int, int>> Graph::SearchAStar(Vertex* start, Vertex* end) 
 	// Reset
 	for (i = openList.begin(); i != openList.end(); ++i)
 	{
-		(*i)->visited = false;
+		(*i)->visited  = false;
 	}
 	for (i = closedList.begin(); i != closedList.end(); ++i)
 	{

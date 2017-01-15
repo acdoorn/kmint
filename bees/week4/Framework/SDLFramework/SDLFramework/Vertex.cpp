@@ -102,7 +102,7 @@ void Vertex::computeScores(Vertex *end)
 {
 	g = getGScore(parent);
 	h = getHScore(end);
-	f = g + h;
+	f = g + (h * 10000);
 }
 
 bool Vertex::hasParent()
