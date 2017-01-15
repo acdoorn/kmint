@@ -1,6 +1,7 @@
 #include "GameWorld.h"
 #include "Vehicle.h"
 #include "Bee.h"
+#include "Pill.h"
 #include "Beekeeper.h"
 #include <algorithm>
 #include "BeeGenerator.h"
@@ -99,6 +100,7 @@ void GameWorld::addObject()
 	int maxTurnRate = 150;
 	m_beekeeper = std::make_shared<Beekeeper>(0, 0, 80, 80, 1, maxSpeed, maxForce, maxTurnRate, this);
 	gameObjects.push_back(m_beekeeper);
+	pill = new Pill(graph->GetRandomVertixNot(std::static_pointer_cast<Beekeeper>(m_beekeeper)->getCurrentVertex()));
 }
 
 
@@ -123,6 +125,9 @@ void GameWorld::update(double deltaTime)
 
 void GameWorld::draw()
 {
+	if (!pill->isEaten()) {
+		pill->draw();
+	}
 	if (m_score != 100)
 	{
 
@@ -175,7 +180,9 @@ int GameWorld::getScore()
 }
 
 
-
+void GameWorld::setPillLocation(Vertex* location) {
+	pill->setLocation(location);
+}
 
 
 std::shared_ptr<MovingEntity> GameWorld::getBeekeeper()

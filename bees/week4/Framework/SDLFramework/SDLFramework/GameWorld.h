@@ -4,6 +4,7 @@
 #include "MovingEntity.h"
 #include <memory>
 #include "Vehicle.h"
+#include "Pill.h"
 #include "BeeStruct.h"
 #include "Graph.h"
 
@@ -23,6 +24,7 @@ private:
 	void nextGeneration();
 	double m_generationTime;
 	Graph* graph;
+	Pill* pill;
 public:
 	void addBee(int x, int y, BeeStruct data);
 	void addBee(int x, int y,  std::shared_ptr<MovingEntity> bee);
@@ -36,6 +38,8 @@ public:
 	bool beeTooClose(const std::shared_ptr<MovingEntity>&);
 	int getScore();
 	void catchBee(std::shared_ptr<MovingEntity>);
+	Pill* getPill() { return pill; };
+	void setPillLocation(Vertex* location);
 	std::shared_ptr<MovingEntity> getBeekeeper();
 	std::vector<std::shared_ptr<MovingEntity>>getBees();
 	Graph* getGraph();

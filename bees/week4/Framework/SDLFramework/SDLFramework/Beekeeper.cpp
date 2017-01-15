@@ -10,12 +10,13 @@ Beekeeper::Beekeeper(double x, double y, int width, int height, double mass, dou
 	m_position.setX(currentVertex->x);
 	m_position.setY(currentVertex->y);
 	m_stateMachine = std::make_shared<StateMachine<Beekeeper>>(this);
-
+	statestring = "Chase bees";
 	std::shared_ptr<BeekeeperWanderState> initialState = std::make_shared<BeekeeperWanderState>();
 	m_stateMachine->setCurrentState(initialState);
 	m_texture = FWApplication::GetInstance()->LoadTexture("../Resources/beekeeper.png");
 	//m_netTexture = FWApplication::GetInstance()->LoadTexture("../Resources/net.png");
 	m_areaTexture = FWApplication::GetInstance()->LoadTexture("../Resources/catcharea.png");
+	color = Color(255, 10, 40, 255);
 }
 
 std::shared_ptr<StateMachine<Beekeeper>> Beekeeper::getStateMachine()
@@ -70,7 +71,7 @@ void Beekeeper::checkVertex() {
 	}
 	double diffX = getPosition().getX() - nextVertex->x;
 	double diffY = getPosition().getY() - nextVertex->y;
-	if ((-5 <= diffX && diffX <= 5) && (-5 <= diffY && diffY <= 5)) {
+	if ((-10 <= diffX && diffX <= 10) && (-10 <= diffY && diffY <= 10)) {
 		currentVertex = nextVertex;
 	}
 
@@ -105,7 +106,7 @@ void Beekeeper::draw()
 
 
 		FWApplication::GetInstance()->DrawTexture(m_texture, x, y, m_width, m_height, 270, 0);
-		FWApplication::GetInstance()->SetColor(Color(255, 10, 40, 255));
+		FWApplication::GetInstance()->SetColor(color);
 
 		FWApplication::GetInstance()->DrawText("Distance : " + std::to_string(m_catchDistance), 100, 5);
 		FWApplication::GetInstance()->DrawText("Score : " + std::to_string(getWorld()->getScore()), 100, 17);
@@ -113,6 +114,7 @@ void Beekeeper::draw()
 		FWApplication::GetInstance()->DrawText("RTB chance : " + std::to_string(getReturnToBaseChance()), 100, 53);
 		FWApplication::GetInstance()->DrawText("Panic chance : " + std::to_string(getPanicChance()), 100, 65);
 		FWApplication::GetInstance()->DrawText("Pill chance : " + std::to_string(getSearchPillChance()), 100, 77);
+		FWApplication::GetInstance()->DrawText("Current state : " + getCurrentState(), 100, 89);
 
 
 
@@ -129,6 +131,14 @@ void Beekeeper::setCatching(bool c) {
 
 int Beekeeper::getMaxAmountBees() {
 	return maxAmountBees;
+}
+
+void Beekeeper::setMaxAmountBees(int i) {
+	maxAmountBees = i;
+}
+
+void Beekeeper::setColor(Color c) {
+	color = c;
 }
 
 void Beekeeper::addBee() {

@@ -21,6 +21,9 @@ private:
 	int returnToBaseChance = 33;
 	int panicChance = 33;
 	int searchPillChance = 33;
+	int amountOfChange = 1; // amount the chances decrease that didn't currently score, and this *2 is the amount the state that scored points increases
+	Color color;
+	std::string statestring;
 public:
 	void setCurrentVertex(Vertex* v) { currentVertex = v; };
 	void setPanicVertex(Vertex* v) { currentVertex = v; };
@@ -37,17 +40,21 @@ public:
 	bool isCatching();
 	void setCatching(bool);
 	int getMaxAmountBees();
+	void setMaxAmountBees(int amount);
 	void addBee(std::shared_ptr<MovingEntity>);
+	void setColor(Color c);
 	int nrCaughtBees();
 	void addBee();
 	void removeBee();
+	std::string getCurrentState() { return statestring; };
+	void setCurrentState(std::string s) { statestring = s; };
 	void resetAmountOfBees();
-	bool lowerReturnToBaseChance() {if (returnToBaseChance != 0) {	returnToBaseChance = returnToBaseChance - 3;	return true;}	return false;};
-	bool lowerPanicChance() {		if (panicChance != 0) {	panicChance = panicChance - 3;	return true;}	return false;};
-	bool lowerSearchPillChance() {	if (searchPillChance != 0) {searchPillChance = searchPillChance - 3; return true;}	return false;};
-	void increaseReturnToBaseChance() { returnToBaseChance = returnToBaseChance + 3;};
-	void increasePanicChance() {		panicChance = panicChance + 3;};
-	void increaseSearchPillChance() {	searchPillChance = searchPillChance + 3;};
+	bool lowerReturnToBaseChance() {if (returnToBaseChance != 0) {	returnToBaseChance = returnToBaseChance - amountOfChange;	return true;}	return false;};
+	bool lowerPanicChance() {		if (panicChance != 0) {	panicChance = panicChance - amountOfChange;	return true;}	return false;};
+	bool lowerSearchPillChance() {	if (searchPillChance != 0) {searchPillChance = searchPillChance - amountOfChange; return true;}	return false;};
+	void increaseReturnToBaseChance() { returnToBaseChance = returnToBaseChance + amountOfChange;};
+	void increasePanicChance() {		panicChance = panicChance + amountOfChange;};
+	void increaseSearchPillChance() {	searchPillChance = searchPillChance + amountOfChange;};
 	int getReturnToBaseChance() { return returnToBaseChance; };
 	int getPanicChance() { return panicChance; };
 	int getSearchPillChance() { return searchPillChance; };
